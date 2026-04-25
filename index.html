@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1. Dargeçit Matematik Olimpiyatı | Resmi Web Sitesi</title>
     <style>
-        /* KURUMSAL RENK PALETİ: MEB ve Kaymakamlık logolarına uyumlu Kırmızı, Siyah, Beyaz ve Gümüş */
+        /* KURUMSAL RENK PALETİ */
         :root {
             --meb-kirmizi: #E30A17;
             --koyu-siyah: #111827;
@@ -45,7 +45,7 @@
         .titles h2 { font-size: 1.2rem; color: var(--koyu-siyah); letter-spacing: 0.5px; }
         .titles h4 { font-size: 0.9rem; color: var(--meb-kirmizi); font-weight: 600; }
 
-        nav { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
         nav a {
             text-decoration: none;
             color: var(--koyu-siyah);
@@ -140,7 +140,7 @@
         .table-title.red-title { background: var(--meb-kirmizi); }
         
         .table-wrap { overflow-x: auto; background: var(--beyaz); border-radius: 0 0 12px 12px; box-shadow: var(--soft-shadow); }
-        table { width: 100%; border-collapse: collapse; min-width: 900px; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
         th { background: #f8f9fa; color: var(--koyu-siyah); padding: 18px; text-align: left; border-bottom: 2px solid #ddd; font-weight: 700; }
         td { padding: 18px; border-bottom: 1px solid #eee; vertical-align: middle; }
         
@@ -148,13 +148,13 @@
         .pdf-link {
             display: inline-block; padding: 8px 16px; border-radius: 6px;
             text-decoration: none; font-size: 0.9rem; font-weight: 600;
-            cursor: pointer; transition: 0.2s; border: none; color: white;
+            cursor: pointer; transition: 0.2s; border: none; color: white; white-space: nowrap;
         }
-        .btn-a { background: #1f2937; } /* Koyu Siyah/Gri */
-        .btn-b { background: #374151; } /* Biraz daha açık gri */
-        .btn-sol-a { background: #059669; } /* Yeşil */
-        .btn-sol-b { background: #0d9488; } /* Turkuaz */
-        .btn-slip { background: #d97706; } /* Turuncu */
+        .btn-a { background: #1f2937; } 
+        .btn-b { background: #374151; } 
+        .btn-sol-a { background: #059669; } 
+        .btn-sol-b { background: #0d9488; } 
+        .btn-slip { background: #d97706; } 
         .btn-classic { background: var(--meb-kirmizi); }
         .pdf-link:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
@@ -176,31 +176,84 @@
         }
         .link-item:hover { background: var(--meb-kirmizi); color: var(--beyaz); border-color: var(--meb-kirmizi); }
 
+        /* İletişim Kartı */
+        .contact-card {
+            background: var(--koyu-siyah);
+            color: var(--beyaz);
+            border-radius: 15px;
+            padding: 40px 5%;
+            text-align: center;
+            margin: 0 auto 50px auto;
+            max-width: 1000px;
+            box-shadow: var(--soft-shadow);
+            border-bottom: 5px solid var(--meb-kirmizi);
+        }
+        .contact-number {
+            display: inline-block;
+            background: var(--meb-kirmizi);
+            color: var(--beyaz);
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 20px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(227, 10, 23, 0.4);
+            transition: 0.3s;
+        }
+        .contact-number:hover { transform: scale(1.05); }
+
         /* Uyarı Pop-up */
         .alert-box {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: var(--beyaz); padding: 40px; border-radius: 15px;
-            box-shadow: 0 15px 60px rgba(0,0,0,0.6); z-index: 2000; text-align: center; max-width: 450px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.6); z-index: 2000; text-align: center; max-width: 450px; width: 90%;
             border-top: 6px solid var(--meb-kirmizi);
         }
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 1999; }
 
         /* Footer */
-        footer { background: var(--koyu-siyah); color: var(--beyaz); padding: 60px 5% 20px; text-align: center; margin-top: 60px; }
+        footer { background: var(--koyu-siyah); color: var(--beyaz); padding: 60px 5% 20px; text-align: center; }
         .footer-logos {
             background: var(--beyaz); display: inline-flex; align-items: center; justify-content: center;
-            padding: 15px 30px; border-radius: 15px; margin-bottom: 30px; gap: 30px;
+            padding: 15px 30px; border-radius: 15px; margin-bottom: 30px; gap: 30px; flex-wrap: wrap;
         }
         .footer-logos img { height: 65px; object-fit: contain; }
         .sponsor { font-size: 1.1rem; color: #fca5a5; margin-bottom: 15px; font-weight: bold; }
         .rights { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: var(--acik-gri); }
 
+        /* ==========================================
+           MOBİL UYUM (RESPONSIVE) KODLARI 
+           ========================================== */
         @media (max-width: 900px) {
-            .hero h1 { font-size: 2.5rem; }
+            /* Menü ve logoların mobilde şık bir şekilde alt alta dizilmesi */
+            header { flex-direction: column; text-align: center; gap: 15px; padding: 15px 5%; }
+            .logo-wrap { justify-content: center; width: 100%; }
+            .titles { display: block; margin-top: 5px; } /* Başlıklar artık kaybolmayacak */
+            nav { width: 100%; justify-content: center; margin-top: 10px; }
+            nav a { font-size: 0.9rem; padding: 6px 12px; margin-bottom: 5px; }
+            
+            /* Hero alanının dar ekranlara göre ölçeklenmesi */
+            .hero { padding: 60px 5% 100px; clip-path: polygon(0 0, 100% 0, 100% 95%, 0% 100%); }
+            .hero h1 { font-size: 2.2rem; }
             .hero p { font-size: 1.1rem; }
-            .dates-container { margin-top: 30px; }
-            nav { display: none; }
-            .titles { display: none; }
+            .dates-container { margin-top: -40px; }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .award-item img { width: 130px; }
+            .price { font-size: 1.8rem; }
+            
+            /* Tablo başlıklarının mobilde sıkışmasını önleme */
+            .table-title { flex-direction: column; text-align: center; gap: 10px; }
+            
+            /* İletişim butonunun küçülmesi */
+            .contact-number { font-size: 1.1rem; padding: 12px 25px; }
+            
+            /* Tablo içi paddinglerin mobil için daraltılması */
+            th, td { padding: 12px 10px; }
+            .pdf-link { padding: 6px 10px; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -226,7 +279,7 @@
             <a href="#takvim">Takvim</a>
             <a href="#belgeler">Sınav Evrakları</a>
             <a href="#matematik">Matematik Dünyası</a>
-            <a href="#kurumlar">Faydalı Linkler</a>
+            <a href="#iletisim">İletişim</a>
         </nav>
         <div class="logo-wrap">
             <img src="Millî_Eğitim_Bakanlığı_(Türkiye)_-_Vikipedi_tr.jpg" alt="MEB">
@@ -278,11 +331,9 @@
         </div>
     </section>
 
-    <!-- SINAV BELGELERİ -->
     <section class="section" id="belgeler">
         <h2 class="section-title">Sınav Evrakları ve Çözümler</h2>
 
-        <!-- 1. AŞAMA TABLOSU -->
         <div class="table-container">
             <div class="table-title">
                 <span>1. Aşama Sınav Dökümanları (Çoktan Seçmeli)</span>
@@ -299,13 +350,11 @@
                         </tr>
                     </thead>
                     <tbody id="stage1Body">
-                        <!-- JS ile doldurulacak -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 2. AŞAMA TABLOSU -->
         <div class="table-container">
             <div class="table-title red-title">
                 <span>2. Aşama Final Sınavı Dökümanları (Klasik Soru)</span>
@@ -322,14 +371,12 @@
                         </tr>
                     </thead>
                     <tbody id="stage2Body">
-                        <!-- JS ile doldurulacak -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <!-- MATEMATİK DÜNYASI BÖLÜMÜ -->
     <section class="section" id="matematik" style="background: var(--beyaz); border-radius: 20px; padding: 60px 5%; box-shadow: var(--soft-shadow);">
         <h2 class="section-title">Matematik Dünyasını Keşfet</h2>
         <p style="text-align: center; margin-bottom: 40px; color: #666; font-size: 1.1rem;">Sayılara yön veren bilim insanlarını tanıyalım ve ufkumuzu genişletelim.</p>
@@ -359,7 +406,6 @@
         </div>
     </section>
 
-    <!-- KURUMSAL LİNKLER -->
     <section class="section" id="kurumlar">
         <h2 class="section-title">Resmi Kurumlarımız</h2>
         <div class="links-grid">
@@ -370,6 +416,14 @@
             <a href="#" class="link-item" style="background: var(--koyu-siyah); color: white;">DARDER Derneği (Sponsor)</a>
         </div>
     </section>
+
+    <div class="section" id="iletisim" style="padding-top: 20px;">
+        <div class="contact-card">
+            <h2 style="color: var(--meb-kirmizi); font-size: 2.2rem; margin-bottom: 15px;">İletişim ve Danışma</h2>
+            <p style="font-size: 1.1rem; color: #ccc; max-width: 600px; margin: 0 auto;">Olimpiyat süreci, detaylı bilgi, şartname kuralları ve profesyonel web tasarım hizmetleri için doğrudan iletişime geçebilirsiniz.</p>
+            <a href="tel:05069282210" class="contact-number">📞 Sıraç Aksan: 0506 928 22 10</a>
+        </div>
+    </div>
 
     <footer>
         <div class="footer-logos">
@@ -392,7 +446,6 @@
         const tbody1 = document.getElementById('stage1Body');
         const tbody2 = document.getElementById('stage2Body');
 
-        // 1. Aşama Tablosunu Oluştur (Ayrı A ve B Çözüm butonlarıyla)
         siniflar.forEach(s => {
             const tr1 = document.createElement('tr');
             tr1.innerHTML = `
@@ -413,7 +466,6 @@
             `;
             tbody1.appendChild(tr1);
 
-            // 2. Aşama Tablosunu Oluştur
             const tr2 = document.createElement('tr');
             tr2.innerHTML = `
                 <td><strong style="font-size: 1.1rem; color: var(--meb-kirmizi);">${s}. Sınıf</strong></td>
@@ -424,7 +476,6 @@
             tbody2.appendChild(tr2);
         });
 
-        // Dinamik Uyarı Fonksiyonu
         function showAlert(tarih) {
             const mesaj = tarih === '11 Mayıs' 
                 ? "Sınav güvenliği ve dürüstlük ilkesi gereği <b>1. Aşama</b> soru kitapçıkları ve ayrıntılı çözümler, sınavın tamamlanmasının ardından <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.3rem;'>11 Mayıs 2026</span><br><br>tarihinde bu butonlar üzerinden erişime açılacaktır." 
