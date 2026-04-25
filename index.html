@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Medeniyetlerin beşiği Dargeçit'te bilimin ışığı parlıyor! 1. Dargeçit Matematik Olimpiyatı resmi web sitesi.">
     <title>1. Dargeçit Matematik Olimpiyatı | Resmi Web Sitesi</title>
     <style>
         /* KURUMSAL RENK PALETİ */
@@ -11,7 +12,6 @@
             --koyu-siyah: #111827;
             --acik-gri: #f3f4f6;
             --beyaz: #ffffff;
-            --gumus: #9ca3af;
             --soft-shadow: 0 10px 25px rgba(0,0,0,0.08);
             --hover-shadow: 0 15px 35px rgba(227, 10, 23, 0.15);
         }
@@ -24,10 +24,10 @@
             scroll-behavior: smooth;
         }
 
-        /* Üst Menü */
+        /* ÜST BANNER VE LOGOLAR (MOBİL UYUMLU DÜZEN) */
         header {
             background: var(--beyaz);
-            padding: 10px 5%;
+            padding: 10px 4%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -36,30 +36,53 @@
             top: 0;
             z-index: 1000;
             border-bottom: 4px solid var(--meb-kirmizi);
+            min-height: 90px;
         }
 
-        .logo-wrap { display: flex; align-items: center; gap: 15px; }
-        .logo-wrap img { height: 75px; object-fit: contain; transition: transform 0.3s; border-radius: 8px;}
-        .logo-wrap img:hover { transform: scale(1.05); }
+        .header-logo {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+        }
 
-        .titles h2 { font-size: 1.2rem; color: var(--koyu-siyah); letter-spacing: 0.5px; }
-        .titles h4 { font-size: 0.9rem; color: var(--meb-kirmizi); font-weight: 600; }
+        .header-logo img {
+            height: 65px; /* Masaüstünde büyük */
+            width: auto;
+            object-fit: contain;
+            transition: height 0.3s ease;
+            border-radius: 8px;
+        }
 
-        nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .header-center {
+            flex: 1;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .header-center h2 { font-size: 1.2rem; color: var(--koyu-siyah); font-weight: 700; letter-spacing: 0.5px; }
+        .header-center h4 { font-size: 0.9rem; color: var(--meb-kirmizi); font-weight: 600; margin-top: 2px; }
+
+        /* Navigasyon */
+        nav { display: flex; gap: 15px; margin-top: 8px; justify-content: center; flex-wrap: wrap; }
         nav a {
             text-decoration: none;
             color: var(--koyu-siyah);
             font-weight: 600;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
             transition: all 0.3s ease;
             font-size: 0.95rem;
-            border: 1px solid transparent;
         }
-        nav a:hover { 
-            background: var(--meb-kirmizi); 
-            color: var(--beyaz); 
-            box-shadow: 0 4px 10px rgba(227, 10, 23, 0.3);
+        nav a:hover { background: var(--meb-kirmizi); color: var(--beyaz); box-shadow: 0 4px 10px rgba(227, 10, 23, 0.3); }
+
+        /* MOBİL CEP TELEFONU AYARLARI */
+        @media (max-width: 768px) {
+            header { padding: 10px 2%; flex-wrap: wrap; }
+            .header-logo img { height: 45px; } /* Mobilde otomatik küçülür, kaymayı engeller */
+            .header-center h2 { font-size: 0.9rem; }
+            .header-center h4 { font-size: 0.75rem; }
+            nav { gap: 5px; }
+            nav a { padding: 4px 8px; font-size: 0.8rem; }
         }
 
         /* Kahraman (Hero) Alanı */
@@ -69,50 +92,57 @@
             background-size: cover;
             background-position: center;
             color: var(--beyaz);
-            padding: 110px 5% 130px;
+            padding: 100px 5%;
             text-align: center;
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
             margin-bottom: 30px;
         }
 
-        .hero h1 { font-size: 3.8rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -1px; text-shadow: 2px 2px 15px rgba(0,0,0,0.8); }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 800; text-shadow: 2px 2px 15px rgba(0,0,0,0.8); }
         .hero h1 span { color: var(--meb-kirmizi); }
-        .hero p { 
-            font-size: 1.4rem; max-width: 1000px; margin: 0 auto 40px; 
-            line-height: 1.6; font-weight: 300; text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
-        }
+        .hero p { font-size: 1.2rem; max-width: 900px; margin: 0 auto 40px; line-height: 1.6; }
 
         .btn-main {
-            display: inline-block; padding: 16px 45px;
-            background: var(--meb-kirmizi); color: var(--beyaz);
-            text-decoration: none; border-radius: 30px; font-weight: bold;
-            font-size: 1.1rem; box-shadow: 0 8px 20px rgba(227, 10, 23, 0.4);
-            transition: all 0.3s; border: 2px solid var(--meb-kirmizi);
+            display: inline-block; padding: 15px 40px; background: var(--meb-kirmizi); color: var(--beyaz);
+            text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(227, 10, 23, 0.4); transition: all 0.3s;
         }
-        .btn-main:hover { background: transparent; color: var(--meb-kirmizi); transform: translateY(-3px); }
+        .btn-main:hover { transform: translateY(-3px); }
 
         /* Sınav Takvimi */
         .dates-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
-            padding: 0 5%; max-width: 1200px; margin: -80px auto 50px auto; position: relative; z-index: 10;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
+            padding: 0 5%; max-width: 1200px; margin: -70px auto 40px auto; position: relative; z-index: 10;
         }
+
+        /* YENİ EKLENEN BİLGİLENDİRME PENCERESİ STİLİ */
+        .info-box {
+            background: #fff5f5;
+            border-left: 5px solid var(--meb-kirmizi);
+            padding: 20px 25px;
+            margin: 0 auto 50px auto;
+            max-width: 1100px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 1.05rem;
+            color: var(--koyu-siyah);
+            line-height: 1.6;
+        }
+        .info-box strong { color: var(--meb-kirmizi); font-size: 1.1rem; }
 
         .date-card {
-            background: var(--beyaz); padding: 35px; border-radius: 15px;
-            box-shadow: var(--soft-shadow); text-align: center;
-            border-top: 5px solid var(--koyu-siyah); transition: 0.3s;
+            background: var(--beyaz); padding: 30px; border-radius: 15px; text-align: center;
+            box-shadow: var(--soft-shadow); border-top: 5px solid var(--koyu-siyah); transition: 0.3s;
         }
-        .date-card:hover { transform: translateY(-5px); box-shadow: var(--hover-shadow); }
         .date-card.red-border { border-top-color: var(--meb-kirmizi); }
-        
-        .date-card h3 { color: var(--koyu-siyah); margin-bottom: 15px; font-size: 1.5rem; }
-        .date-card .highlight { font-size: 2rem; font-weight: 800; color: var(--meb-kirmizi); margin-bottom: 5px; }
+        .date-card h3 { color: var(--koyu-siyah); margin-bottom: 10px; font-size: 1.4rem; }
+        .date-card .highlight { font-size: 1.8rem; font-weight: 800; color: var(--meb-kirmizi); margin-bottom: 5px; }
 
         /* Ortak Bölüm Stilleri */
-        .section { padding: 70px 5%; max-width: 1400px; margin: 0 auto; }
+        .section { padding: 60px 5%; max-width: 1400px; margin: 0 auto; }
         .section-title { 
-            text-align: center; font-size: 2.5rem; color: var(--koyu-siyah); 
-            margin-bottom: 50px; position: relative; text-transform: uppercase; font-weight: 800;
+            text-align: center; font-size: 2.2rem; color: var(--koyu-siyah); 
+            margin-bottom: 40px; position: relative; text-transform: uppercase; font-weight: 800;
         }
         .section-title::after {
             content: ''; width: 80px; height: 5px; background: var(--meb-kirmizi);
@@ -120,35 +150,32 @@
         }
 
         /* Ödüller */
-        .award-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .award-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
         .award-item {
-            background: var(--beyaz); padding: 40px; border-radius: 15px; text-align: center;
-            box-shadow: var(--soft-shadow); transition: 0.3s; border: 1px solid #eaeaea;
+            background: var(--beyaz); padding: 30px; border-radius: 15px; text-align: center;
+            box-shadow: var(--soft-shadow); border: 1px solid #eaeaea; transition: 0.3s;
         }
-        .award-item:hover { transform: translateY(-10px); border-color: var(--meb-kirmizi); }
-        .award-item img { width: 180px; margin-bottom: 20px; }
-        .award-item h4 { font-size: 1.6rem; color: var(--koyu-siyah); }
-        .price { font-size: 2.2rem; color: var(--meb-kirmizi); font-weight: bold; margin: 10px 0; }
+        .award-item:hover { transform: translateY(-5px); border-color: var(--meb-kirmizi); }
+        .award-item img { width: 160px; margin-bottom: 15px; }
+        .award-item h4 { font-size: 1.5rem; color: var(--koyu-siyah); }
+        .price { font-size: 2rem; color: var(--meb-kirmizi); font-weight: bold; margin: 10px 0; }
 
         /* Tablolar */
         .table-container { margin-bottom: 50px; }
         .table-title {
-            background: var(--koyu-siyah); color: white; padding: 20px 25px;
-            border-radius: 12px 12px 0 0; font-size: 1.2rem; font-weight: 600;
-            display: flex; justify-content: space-between; align-items: center;
+            background: var(--koyu-siyah); color: white; padding: 18px 25px;
+            border-radius: 12px 12px 0 0; font-size: 1.1rem; font-weight: 600;
         }
         .table-title.red-title { background: var(--meb-kirmizi); }
-        
         .table-wrap { overflow-x: auto; background: var(--beyaz); border-radius: 0 0 12px 12px; box-shadow: var(--soft-shadow); }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th { background: #f8f9fa; color: var(--koyu-siyah); padding: 18px; text-align: left; border-bottom: 2px solid #ddd; font-weight: 700; }
-        td { padding: 18px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { background: #f8f9fa; padding: 15px; text-align: left; border-bottom: 2px solid #ddd; }
+        td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
         
         .btn-group { display: flex; gap: 5px; flex-wrap: wrap; }
         .pdf-link {
-            display: inline-block; padding: 8px 16px; border-radius: 6px;
-            text-decoration: none; font-size: 0.9rem; font-weight: 600;
-            cursor: pointer; transition: 0.2s; border: none; color: white; white-space: nowrap;
+            display: inline-block; padding: 8px 14px; border-radius: 6px; text-decoration: none;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer; color: white; border: none;
         }
         .btn-a { background: #1f2937; } 
         .btn-b { background: #374151; } 
@@ -156,146 +183,87 @@
         .btn-sol-b { background: #0d9488; } 
         .btn-slip { background: #d97706; } 
         .btn-classic { background: var(--meb-kirmizi); }
-        .pdf-link:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .pdf-link:hover { opacity: 0.8; transform: translateY(-2px); }
 
-        /* Matematik Dünyası & Linkler */
+        /* Matematik Dünyası & Linkler (GERİ GETİRİLDİ) */
         .math-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
         .math-card {
             background: var(--beyaz); border-radius: 12px; padding: 25px;
             box-shadow: var(--soft-shadow); border-left: 4px solid var(--meb-kirmizi);
         }
-        .math-card h3 { color: var(--koyu-siyah); margin-bottom: 10px; font-size: 1.3rem; }
+        .math-card h3 { color: var(--koyu-siyah); margin-bottom: 10px; font-size: 1.2rem; }
         .math-card p { font-size: 0.95rem; color: #555; line-height: 1.6; }
         
         .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
         .link-item {
             display: flex; align-items: center; justify-content: center; padding: 15px;
-            background: var(--beyaz); border-radius: 8px; text-decoration: none;
-            color: var(--koyu-siyah); font-weight: bold; text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #ddd;
+            background: var(--beyaz); border-radius: 8px; text-decoration: none; color: var(--koyu-siyah);
+            font-weight: bold; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #ddd; transition: 0.3s;
         }
         .link-item:hover { background: var(--meb-kirmizi); color: var(--beyaz); border-color: var(--meb-kirmizi); }
 
-        /* İletişim Kartı */
-        .contact-card {
-            background: var(--koyu-siyah);
-            color: var(--beyaz);
-            border-radius: 15px;
-            padding: 40px 5%;
-            text-align: center;
-            margin: 0 auto 50px auto;
-            max-width: 1000px;
-            box-shadow: var(--soft-shadow);
-            border-bottom: 5px solid var(--meb-kirmizi);
-        }
-        .contact-number {
-            display: inline-block;
-            background: var(--meb-kirmizi);
-            color: var(--beyaz);
-            padding: 15px 35px;
-            border-radius: 30px;
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-top: 20px;
-            text-decoration: none;
-            box-shadow: 0 5px 15px rgba(227, 10, 23, 0.4);
-            transition: 0.3s;
-        }
-        .contact-number:hover { transform: scale(1.05); }
+        /* Footer (LOGOLAR KALDIRILDI - SADECE YAZI) */
+        footer { background: var(--koyu-siyah); color: var(--beyaz); padding: 50px 5% 20px; text-align: center; margin-top: 50px; }
+        .sponsor { font-size: 1.1rem; color: #fca5a5; margin-bottom: 15px; font-weight: bold; }
+        .rights { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: var(--acik-gri); }
 
         /* Uyarı Pop-up */
         .alert-box {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: var(--beyaz); padding: 40px; border-radius: 15px;
-            box-shadow: 0 15px 60px rgba(0,0,0,0.6); z-index: 2000; text-align: center; max-width: 450px; width: 90%;
-            border-top: 6px solid var(--meb-kirmizi);
+            box-shadow: 0 15px 60px rgba(0,0,0,0.6); z-index: 2000; text-align: center; max-width: 450px;
+            border-top: 6px solid var(--meb-kirmizi); width: 90%;
         }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 1999; }
-
-        /* Footer */
-        footer { background: var(--koyu-siyah); color: var(--beyaz); padding: 60px 5% 20px; text-align: center; }
-        .footer-logos {
-            background: var(--beyaz); display: inline-flex; align-items: center; justify-content: center;
-            padding: 15px 30px; border-radius: 15px; margin-bottom: 30px; gap: 30px; flex-wrap: wrap;
-        }
-        .footer-logos img { height: 65px; object-fit: contain; }
-        .sponsor { font-size: 1.1rem; color: #fca5a5; margin-bottom: 15px; font-weight: bold; }
-        .rights { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: var(--acik-gri); }
-
-        /* ==========================================
-           MOBİL UYUM (RESPONSIVE) KODLARI 
-           ========================================== */
-        @media (max-width: 900px) {
-            /* Menü ve logoların mobilde şık bir şekilde alt alta dizilmesi */
-            header { flex-direction: column; text-align: center; gap: 15px; padding: 15px 5%; }
-            .logo-wrap { justify-content: center; width: 100%; }
-            .titles { display: block; margin-top: 5px; } /* Başlıklar artık kaybolmayacak */
-            nav { width: 100%; justify-content: center; margin-top: 10px; }
-            nav a { font-size: 0.9rem; padding: 6px 12px; margin-bottom: 5px; }
-            
-            /* Hero alanının dar ekranlara göre ölçeklenmesi */
-            .hero { padding: 60px 5% 100px; clip-path: polygon(0 0, 100% 0, 100% 95%, 0% 100%); }
-            .hero h1 { font-size: 2.2rem; }
-            .hero p { font-size: 1.1rem; }
-            .dates-container { margin-top: -40px; }
-        }
-
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 1.8rem; }
-            .award-item img { width: 130px; }
-            .price { font-size: 1.8rem; }
-            
-            /* Tablo başlıklarının mobilde sıkışmasını önleme */
-            .table-title { flex-direction: column; text-align: center; gap: 10px; }
-            
-            /* İletişim butonunun küçülmesi */
-            .contact-number { font-size: 1.1rem; padding: 12px 25px; }
-            
-            /* Tablo içi paddinglerin mobil için daraltılması */
-            th, td { padding: 12px 10px; }
-            .pdf-link { padding: 6px 10px; font-size: 0.85rem; }
-        }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1999; }
+        
+        @media (max-width: 768px) { .hero h1 { font-size: 2.2rem; } }
     </style>
 </head>
 <body>
 
     <div class="overlay" id="overlay"></div>
     <div class="alert-box" id="alertBox">
-        <h3 id="alertTitle" style="color: var(--koyu-siyah); margin-bottom: 15px; font-size: 1.5rem;">Bağlantı Kilitli</h3>
-        <p id="alertMessage" style="margin-bottom: 25px; line-height: 1.6; font-size: 1.05rem; color: #444;"></p>
-        <button onclick="closeAlert()" style="padding: 12px 35px; background: var(--meb-kirmizi); color: var(--beyaz); font-weight: bold; font-size: 1.1rem; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(227, 10, 23, 0.3);">Anladım, Teşekkürler</button>
+        <h3 id="alertTitle" style="color: var(--koyu-siyah); margin-bottom: 15px; font-size: 1.4rem;">Bağlantı Kilitli</h3>
+        <p id="alertMessage" style="margin-bottom: 25px; line-height: 1.6; font-size: 1rem; color: #444;"></p>
+        <button onclick="closeAlert()" style="padding: 10px 30px; background: var(--meb-kirmizi); color: var(--beyaz); font-weight: bold; border: none; border-radius: 8px; cursor: pointer;">Anladım</button>
     </div>
 
     <header>
-        <div class="logo-wrap">
+        <!-- Sol Logo -->
+        <div class="header-logo">
             <img src="KAYMAKAMLIK.jpg" alt="Dargeçit Kaymakamlığı">
-            <div class="titles">
-                <h2>T.C. DARGEÇİT KAYMAKAMLIĞI</h2>
-                <h4>İlçe Millî Eğitim Müdürlüğü</h4>
-            </div>
         </div>
-        <nav>
-            <a href="#">Ana Sayfa</a>
-            <a href="#takvim">Takvim</a>
-            <a href="#belgeler">Sınav Evrakları</a>
-            <a href="#matematik">Matematik Dünyası</a>
-            <a href="#iletisim">İletişim</a>
-        </nav>
-        <div class="logo-wrap">
+
+        <!-- Orta Başlık ve Menü -->
+        <div class="header-center">
+            <h2>T.C. DARGEÇİT KAYMAKAMLIĞI</h2>
+            <h4>İlçe Millî Eğitim Müdürlüğü</h4>
+            <nav>
+                <a href="#">Ana Sayfa</a>
+                <a href="#takvim">Takvim</a>
+                <a href="#belgeler">Evraklar</a>
+                <a href="#matematik">Bilim Dünyası</a>
+                <a href="#kurumlar">Linkler</a>
+            </nav>
+        </div>
+
+        <!-- Sağ Logo -->
+        <div class="header-logo">
             <img src="Millî_Eğitim_Bakanlığı_(Türkiye)_-_Vikipedi_tr.jpg" alt="MEB">
         </div>
     </header>
 
     <section class="hero">
-        <h1>Dargeçit'ten <span>Bilimin Zirvesine!</span></h1>
-        <p>Medeniyetlerin beşiği Dicle'nin incisi Dargeçit'ten, evrensel bilimin zirvesine uzanan görkemli bir yolculuk... Matematiğin kusursuz diliyle düşünen, sınırları aşan ve geleceği ilmek ilmek dokuyacak olan dehalarımız; bu büyük bilim şöleni sizleri bekliyor!</p>
+        <h1>1. Dargeçit <span>Matematik Olimpiyatı</span></h1>
+        <p>Medeniyetlerin beşiği Dicle'nin incisi Dargeçit'ten, evrensel bilimin zirvesine uzanan görkemli bir yolculuk... Geleceğin dehaları, bu büyük bilim şöleni sizleri bekliyor!</p>
         <a href="#belgeler" class="btn-main">Sınav Evrakları ve Çözümler</a>
     </section>
 
     <div class="dates-container" id="takvim">
         <div class="date-card">
             <h3>1. AŞAMA (Çoktan Seçmeli)</h3>
-            <p class="highlight" style="color: var(--koyu-siyah);">11 Mayıs 2026</p>
+            <p class="highlight">11 Mayıs 2026</p>
             <p style="font-weight: bold; color: #555;">Pazartesi | Saat: 10:00</p>
             <p style="font-size: 0.95rem; margin-top: 10px; color: #777;">Tüm Öğrenciler Kendi Okullarında</p>
         </div>
@@ -305,6 +273,11 @@
             <p style="font-weight: bold; color: #555;">Pazartesi | Saat: 10:00</p>
             <p style="font-size: 0.95rem; margin-top: 10px; color: #777;">Dargeçit Anadolu Lisesi<br>(Adaylar 09:30'da hazır bulunacaktır)</p>
         </div>
+    </div>
+
+    <!-- ÖNEMLİ BİLGİLENDİRME PENCERESİ (YENİ EKLENDİ) -->
+    <div class="info-box" style="width: 90%;">
+        <strong>📌 Önemli Bilgilendirme:</strong> 1. Aşama sınavı için öğrencilerin herhangi bir yere <b>başvuru yapmasına gerek yoktur.</b> Sınav, Dargeçit ilçe genelindeki tüm okullarda eş zamanlı olarak gerçekleştirilecektir. (Olimpiyat sadece Dargeçit ilçesindeki okulları kapsamaktadır.)
     </div>
 
     <section class="section" id="oduller">
@@ -317,13 +290,13 @@
                 <div class="price">Lenovo M9 Tablet</div>
             </div>
             <div class="award-item">
-                <div style="font-size: 5rem; margin-bottom: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.1);">🥈</div>
+                <div style="font-size: 4rem; margin-bottom: 10px;">🥈</div>
                 <h4>İKİNCİLER</h4>
                 <p>Başarı ve Teşvik Ödülü</p>
                 <div class="price">5.000 TL</div>
             </div>
             <div class="award-item">
-                <div style="font-size: 5rem; margin-bottom: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.1);">🥉</div>
+                <div style="font-size: 4rem; margin-bottom: 10px;">🥉</div>
                 <h4>ÜÇÜNCÜLER</h4>
                 <p>Başarı ve Teşvik Ödülü</p>
                 <div class="price">3.000 TL</div>
@@ -331,14 +304,13 @@
         </div>
     </section>
 
+    <!-- SINAV BELGELERİ -->
     <section class="section" id="belgeler">
         <h2 class="section-title">Sınav Evrakları ve Çözümler</h2>
 
+        <!-- 1. Aşama Tablosu -->
         <div class="table-container">
-            <div class="table-title">
-                <span>1. Aşama Sınav Dökümanları (Çoktan Seçmeli)</span>
-                <span style="font-size: 0.9rem; background: rgba(255,255,255,0.15); padding: 5px 12px; border-radius: 20px;">11 Mayıs 2026</span>
-            </div>
+            <div class="table-title">1. Aşama Sınav Dökümanları (Çoktan Seçmeli - 11 Mayıs 2026)</div>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -349,17 +321,14 @@
                             <th>Sınav İdaresi</th>
                         </tr>
                     </thead>
-                    <tbody id="stage1Body">
-                        </tbody>
+                    <tbody id="stage1Body"></tbody>
                 </table>
             </div>
         </div>
 
+        <!-- 2. Aşama Tablosu -->
         <div class="table-container">
-            <div class="table-title red-title">
-                <span>2. Aşama Final Sınavı Dökümanları (Klasik Soru)</span>
-                <span style="font-size: 0.9rem; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px;">18 Mayıs 2026</span>
-            </div>
+            <div class="table-title red-title">2. Aşama Final Sınavı Dökümanları (Klasik Soru - 18 Mayıs 2026)</div>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -370,16 +339,16 @@
                             <th>Çözüm Notları</th>
                         </tr>
                     </thead>
-                    <tbody id="stage2Body">
-                        </tbody>
+                    <tbody id="stage2Body"></tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <section class="section" id="matematik" style="background: var(--beyaz); border-radius: 20px; padding: 60px 5%; box-shadow: var(--soft-shadow);">
+    <!-- MATEMATİK DÜNYASI BÖLÜMÜ (GERİ GETİRİLDİ) -->
+    <section class="section" id="matematik" style="background: var(--beyaz); border-radius: 20px; box-shadow: var(--soft-shadow);">
         <h2 class="section-title">Matematik Dünyasını Keşfet</h2>
-        <p style="text-align: center; margin-bottom: 40px; color: #666; font-size: 1.1rem;">Sayılara yön veren bilim insanlarını tanıyalım ve ufkumuzu genişletelim.</p>
+        <p style="text-align: center; margin-bottom: 40px; color: #666;">Sayılara yön veren bilim insanlarını tanıyalım ve ufkumuzu genişletelim.</p>
         
         <div class="math-grid">
             <div class="math-card">
@@ -396,7 +365,7 @@
             </div>
         </div>
 
-        <h3 style="text-align: center; margin: 40px 0 20px; color: var(--meb-kirmizi);">Öğrencilerimiz İçin Bilim ve Eğitim Linkleri</h3>
+        <h3 style="text-align: center; margin: 40px 0 20px; color: var(--meb-kirmizi);">Öğrencilerimiz İçin Bilim Linkleri</h3>
         <div class="links-grid">
             <a href="https://bilimgenc.tubitak.gov.tr/" target="_blank" class="link-item">TÜBİTAK Bilim Genç</a>
             <a href="https://tr.khanacademy.org/math" target="_blank" class="link-item">Khan Academy Matematik</a>
@@ -406,6 +375,7 @@
         </div>
     </section>
 
+    <!-- KURUMSAL LİNKLER (GERİ GETİRİLDİ) -->
     <section class="section" id="kurumlar">
         <h2 class="section-title">Resmi Kurumlarımız</h2>
         <div class="links-grid">
@@ -413,30 +383,18 @@
             <a href="http://mardin.meb.gov.tr/" target="_blank" class="link-item">Mardin İl MEM</a>
             <a href="http://www.dargecit.gov.tr/" target="_blank" class="link-item">Dargeçit Kaymakamlığı</a>
             <a href="http://dargecit.meb.gov.tr/" target="_blank" class="link-item">Dargeçit İlçe MEM</a>
-            <a href="#" class="link-item" style="background: var(--koyu-siyah); color: white;">DARDER Derneği (Sponsor)</a>
+            <a href="#" class="link-item" style="background: var(--koyu-siyah); color: white;">DARDER Derneği</a>
         </div>
     </section>
 
-    <div class="section" id="iletisim" style="padding-top: 20px;">
-        <div class="contact-card">
-            <h2 style="color: var(--meb-kirmizi); font-size: 2.2rem; margin-bottom: 15px;">İletişim ve Danışma</h2>
-            <p style="font-size: 1.1rem; color: #ccc; max-width: 600px; margin: 0 auto;">Olimpiyat süreci, detaylı bilgi, şartname kuralları ve profesyonel web tasarım hizmetleri için doğrudan iletişime geçebilirsiniz.</p>
-            <a href="tel:05069282210" class="contact-number">📞 Sıraç Aksan: 0506 928 22 10</a>
-        </div>
-    </div>
-
+    <!-- FOOTER (LOGOLAR TAMAMEN KALDIRILDI) -->
     <footer>
-        <div class="footer-logos">
-            <img src="KAYMAKAMLIK.jpg" alt="Kaymakamlık Logosu">
-            <img src="Millî_Eğitim_Bakanlığı_(Türkiye)_-_Vikipedi_tr.jpg" alt="MEB Logosu">
-        </div>
-        
         <p class="sponsor">Resmi Sponsor: Dargeçit ve Çevre Köyleri Eğitim, Kültür, Yardımlaşma ve Dayanışma Derneği (DARDER)</p>
         <p style="font-size: 0.95rem; max-width: 700px; margin: 0 auto; line-height: 1.6;">Öğrencilerimizin analitik düşünme becerilerini geliştirmek ve Dargeçit'in akademik başarısına kalıcı bir katkı sunmak projemizin temel vizyonudur.</p>
         
         <div class="rights">
             Proje Koordinasyonu: <b>Dargeçit İlçe Millî Eğitim Müdürlüğü</b><br><br>
-            Tasarım, Grafik ve Yazılım Hakları &copy; 2026 <b>Sıraç Aksan</b>'a aittir. İzinsiz kopyalanamaz.
+            Tasarım, Grafik ve Yazılım Hakları &copy; 2026 <b>Sıraç Aksan</b>'a aittir.
         </div>
     </footer>
 
@@ -447,9 +405,10 @@
         const tbody2 = document.getElementById('stage2Body');
 
         siniflar.forEach(s => {
+            // 1. Aşama (Ayrı A-B Çözümleriyle Birlikte)
             const tr1 = document.createElement('tr');
             tr1.innerHTML = `
-                <td><strong style="font-size: 1.1rem; color: var(--koyu-siyah);">${s}. Sınıf</strong></td>
+                <td><strong style="color: var(--koyu-siyah);">${s}. Sınıf</strong></td>
                 <td>
                     <div class="btn-group">
                         <button class="pdf-link btn-a" onclick="showAlert('11 Mayıs')">${s}A İndir</button>
@@ -466,9 +425,10 @@
             `;
             tbody1.appendChild(tr1);
 
+            // 2. Aşama Tablosu
             const tr2 = document.createElement('tr');
             tr2.innerHTML = `
-                <td><strong style="font-size: 1.1rem; color: var(--meb-kirmizi);">${s}. Sınıf</strong></td>
+                <td><strong style="color: var(--meb-kirmizi);">${s}. Sınıf</strong></td>
                 <td style="font-size: 0.95rem; color: #555; font-weight: 600;">10 Asil + 5 Yedek Klasik Soru</td>
                 <td><button class="pdf-link btn-classic" onclick="showAlert('18 Mayıs')">Kitapçığı İndir</button></td>
                 <td><button class="pdf-link btn-sol-a" style="background:#2563eb;" onclick="showAlert('18 Mayıs')">Çözüm Notları</button></td>
@@ -478,8 +438,8 @@
 
         function showAlert(tarih) {
             const mesaj = tarih === '11 Mayıs' 
-                ? "Sınav güvenliği ve dürüstlük ilkesi gereği <b>1. Aşama</b> soru kitapçıkları ve ayrıntılı çözümler, sınavın tamamlanmasının ardından <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.3rem;'>11 Mayıs 2026</span><br><br>tarihinde bu butonlar üzerinden erişime açılacaktır." 
-                : "<b>2. Aşama</b> klasik sınavına ait final kitapçıkları ve detaylı çözüm notları, final aşaması tamamlandıktan sonra <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.3rem;'>18 Mayıs 2026</span><br><br>tarihinde aktifleşecektir.";
+                ? "Sınav güvenliği gereği <b>1. Aşama</b> evrakları <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.2rem;'>11 Mayıs 2026</span><br><br>tarihinde erişime açılacaktır." 
+                : "<b>2. Aşama</b> final evrakları sınav bitiminde <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.2rem;'>18 Mayıs 2026</span><br><br>tarihinde aktifleşecektir.";
             
             document.getElementById('alertMessage').innerHTML = mesaj;
             document.getElementById('overlay').style.display = 'block';
