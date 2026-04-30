@@ -209,9 +209,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 0px;
+            margin-top: 5px; /* Üst boşluk daraltıldı, yukarı kaydırıldı */
             padding: 0 40px;
-            margin-bottom: 10px; /* Metne çok yaklaşmaması için alt boşluk hafif kısıldı */
+            margin-bottom: 15px; /* Alt boşluk orantılandı */
         }
         .logo-img { 
             width: 100px; 
@@ -224,7 +224,9 @@
         }
         .header-titles {
             flex: 1;
+            line-height: 1.2;
         }
+        .header-titles .tc-title { font-size: 16pt; color: var(--koyu-lacivert); font-weight: bold; margin-bottom: 2px; }
         .header-titles h1 { font-size: 18pt; color: var(--koyu-lacivert); margin-bottom: 4px; }
         .header-titles h2 { font-size: 15pt; color: var(--meb-kirmizi); font-weight: 600; }
 
@@ -496,7 +498,8 @@
                 <div class="cert-header">
                     <img src="kaymakamlık.jpg" alt="Kaymakamlık Logosu" class="logo-img">
                     <div class="header-titles">
-                        <h1>T.C. DARGEÇİT KAYMAKAMLIĞI</h1>
+                        <div class="tc-title">T.C.</div>
+                        <h1>DARGEÇİT KAYMAKAMLIĞI</h1>
                         <h2>İlçe Millî Eğitim Müdürlüğü</h2>
                     </div>
                     <img src="dargecitmem.jpg" alt="MEB Logosu" class="logo-img">
@@ -547,7 +550,7 @@
             <!-- İmza (Yukarı kaydırıldı ve sabitlendi) -->
             <div class="cert-signature">
                 <h5 id="imzaAdi">Muhammed Enes İPEK</h5>
-                <p id="imzaUnvani">Kaymakam </p>
+                <p id="imzaUnvani">Kaymakam</p>
             </div>
 
         </div>
