@@ -195,7 +195,9 @@
         /* İÇERİK DÜZENİ */
         .cert-content {
             position: absolute;
-            top: 12mm; bottom: 12mm; left: 20mm; right: 20mm;
+            top: 22mm; /* Logolar çerçevenin içine, güvenli alana indirildi */
+            bottom: 15mm; 
+            left: 20mm; right: 20mm;
             z-index: 10;
             display: flex;
             flex-direction: column;
@@ -207,9 +209,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
+            margin-top: 0px;
             padding: 0 40px;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Metne çok yaklaşmaması için alt boşluk hafif kısıldı */
         }
         .logo-img { 
             width: 100px; 
@@ -227,13 +229,13 @@
         .header-titles h2 { font-size: 15pt; color: var(--meb-kirmizi); font-weight: 600; }
 
         /* BAŞLIK */
-        .cert-title { margin-bottom: 25px; }
+        .cert-title { margin-bottom: 15px; }
         .cert-title h3 { font-size: 26pt; color: var(--meb-kirmizi); letter-spacing: 2px; margin-bottom: 6px; }
         .cert-title h4 { font-size: 20pt; color: var(--altin-sari); letter-spacing: 1px; }
 
         /* ÖĞRENCİ BİLGİLERİ (ESNEK TABLO YAPISI) */
         .info-table {
-            margin: 0 auto 25px auto;
+            margin: 0 auto 15px auto; /* Tablo altı boşluk hafif daraltıldı */
             font-size: 16pt;
             border-collapse: collapse;
             text-align: left;
@@ -285,10 +287,10 @@
             display: inline;
         }
 
-        /* İMZA ALANI */
+        /* İMZA ALANI (AŞAĞI KAYMASI ENGELLENDİ, YUKARI ÇEKİLDİ) */
         .cert-signature {
             position: absolute;
-            bottom: 18mm;
+            bottom: 25mm; /* İmza alanı güvenle yukarı çekildi */
             right: 25mm;
             text-align: center;
             width: 280px;
@@ -457,7 +459,7 @@
                 </svg>
             </div>
 
-            <!-- Zenginleştirilmiş Matematiksel Arka Plan (Geometrik Silüetler) -->
+            <!-- Zenginleştirilmiş Matematiksel Arka Plan -->
             <div class="math-bg">
                 <div class="math-item" style="color: rgba(212, 175, 55, 0.05); font-size: 380pt; top: 50%; left: 50%; transform: translate(-50%, -50%);">π</div>
                 
@@ -531,7 +533,7 @@
                 <div class="cert-body">
                     İlçemiz genelinde 11 - 18 Mayıs 2026 tarihlerinde düzenlenen <b>1. Dargeçit Matematik Olimpiyatı</b>'na katılarak üstün gayret gösteren öğrencimiz,
                     
-                    <!-- Dinamik Kategori ve Derece Yazısı (TEK SATIRDA) -->
+                    <!-- Dinamik Kategori ve Derece Yazısı -->
                     <div class="cert-degree-wrapper">
                         <span class="cert-degree" id="kategoriOut" style="display: none;"></span>
                         <span class="cert-degree" id="dereceOut">İLÇE BİRİNCİLİĞİ</span>
@@ -542,7 +544,7 @@
 
             </div>
 
-            <!-- İmza -->
+            <!-- İmza (Yukarı kaydırıldı ve sabitlendi) -->
             <div class="cert-signature">
                 <h5 id="imzaAdi">Muhammed Enes İPEK</h5>
                 <p id="imzaUnvani">Dargeçit Kaymakamı</p>
