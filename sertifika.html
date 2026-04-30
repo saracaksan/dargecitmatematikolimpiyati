@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dargeçit Matematik Olimpiyatı | Sertifika Oluşturucu</title>
+    <style>
+        /* GENEL AYARLAR VE RENKLER */
+        :root {
+            --meb-kirmizi: #E30A17;
+            --koyu-lacivert: #111827;
+            --altin-sari: #D4AF37;
+            --bg-renk: #f3f4f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            background-color: var(--bg-renk);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* YAZDIRILMAYACAK KONTROL PANELİ (SOL TARAF) */
+        .sidebar {
+            width: 350px;
+            background: white;
+            padding: 30px;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        .sidebar h2 {
+            color: var(--meb-kirmizi);
+            margin-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        .sidebar p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: var(--koyu-lacivert);
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: 0.3s;
+            background-color: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--altin-sari);
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-print {
+            margin-top: 20px;
+            background: var(--meb-kirmizi);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-print:hover {
+            background: #b90812;
+            transform: translateY(-2px);
+        }
+
+        /* ÖNİZLEME ALANI (SAĞ TARAF) */
+        .preview-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            background: #e5e7eb;
+        }
+
+        /* A4 YATAY SERTİFİKA TASARIMI */
+        .certificate-wrapper {
+            width: 297mm;
+            height: 210mm;
+            background: white;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            flex-shrink: 0;
+            transform-origin: center center;
+        }
+
+        /* ÇERÇEVELER VE KÖŞE SÜSLERİ */
+        .cert-border {
+            position: absolute;
+            top: 10mm; bottom: 10mm; left: 15mm; right: 15mm;
+            border: 4px solid var(--meb-kirmizi);
+            pointer-events: none;
+            z-index: 5;
+        }
+        .cert-border::before {
+            content: ''; position: absolute;
+            top: 3px; bottom: 3px; left: 3px; right: 3px;
+            border: 2px solid var(--altin-sari);
+        }
+        .cert-border::after {
+            content: ''; position: absolute;
+            top: 7px; bottom: 7px; left: 7px; right: 7px;
+            border: 1px solid var(--koyu-lacivert);
+        }
+
+        .corner { position: absolute; z-index: 6; }
+        .corner svg { width: 80px; height: 80px; }
+        .top-left { top: 10mm; left: 15mm; }
+        .top-right { top: 10mm; right: 15mm; transform: scaleX(-1); }
+        .bottom-left { bottom: 10mm; left: 15mm; transform: scaleY(-1); }
+        .bottom-right { bottom: 10mm; right: 15mm; transform: scale(-1, -1); }
+
+        /* MATEMATİKSEL ARKA PLAN */
+        .math-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .math-item {
+            position: absolute;
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            color: rgba(17, 24, 39, 0.04);
+            white-space: nowrap;
+        }
+        
+        .geo-shape {
+            position: absolute;
+            border: 2px solid rgba(227, 10, 23, 0.03);
+            border-radius: 50%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .geo-triangle {
+            position: absolute;
+            width: 0; height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 170px solid rgba(212, 175, 55, 0.04);
+            z-index: 1;
+        }
+        .geo-grid {
+            position: absolute;
+            width: 300px; height: 300px;
+            background-image: linear-gradient(rgba(17,24,39,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(17,24,39,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 1;
+            transform: rotate(15deg);
+        }
+
+        /* İÇERİK DÜZENİ */
+        .cert-content {
+            position: absolute;
+            top: 12mm; bottom: 12mm; left: 20mm; right: 20mm;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        /* ÜST BÖLÜM: ORİJİNAL LOGOLAR */
+        .cert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 0 40px;
+            margin-bottom: 20px;
+        }
+        .logo-img { 
+            width: 100px; 
+            height: 100px; 
+            object-fit: cover;
+            border-radius: 50%;
+            mix-blend-mode: multiply; 
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .header-titles {
+            flex: 1;
+        }
+        .header-titles h1 { font-size: 18pt; color: var(--koyu-lacivert); margin-bottom: 4px; }
+        .header-titles h2 { font-size: 15pt; color: var(--meb-kirmizi); font-weight: 600; }
+
+        /* BAŞLIK */
+        .cert-title { margin-bottom: 25px; }
+        .cert-title h3 { font-size: 26pt; color: var(--meb-kirmizi); letter-spacing: 2px; margin-bottom: 6px; }
+        .cert-title h4 { font-size: 20pt; color: var(--altin-sari); letter-spacing: 1px; }
+
+        /* ÖĞRENCİ BİLGİLERİ (ESNEK TABLO YAPISI) */
+        .info-table {
+            margin: 0 auto 25px auto;
+            font-size: 16pt;
+            border-collapse: collapse;
+            text-align: left;
+            width: 75%;
+        }
+        .info-table td {
+            padding: 6px 10px;
+            vertical-align: bottom;
+        }
+        .info-table .label {
+            font-weight: 700;
+            color: var(--koyu-lacivert);
+            width: 150px;
+            text-align: right;
+            white-space: nowrap;
+        }
+        .info-table .colon {
+            font-weight: 700;
+            color: var(--koyu-lacivert);
+            width: 10px;
+        }
+        .info-table .value {
+            color: var(--koyu-lacivert);
+            font-weight: 700;
+            border-bottom: 2px dotted #888;
+            width: 100%;
+        }
+
+        /* ANA METİN VE DERECE */
+        .cert-body { 
+            font-size: 15pt; 
+            color: #333; 
+            line-height: 1.5; 
+            margin-bottom: 10px; 
+        }
+        
+        /* Derece ve Kategori Tek Satırda Aynı Hizada */
+        .cert-degree-wrapper {
+            margin: 10px 0; 
+            padding: 0;
+            text-align: center;
+        }
+        .cert-degree {
+            font-size: 22pt; 
+            color: var(--meb-kirmizi);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline;
+        }
+
+        /* İMZA ALANI */
+        .cert-signature {
+            position: absolute;
+            bottom: 18mm;
+            right: 25mm;
+            text-align: center;
+            width: 280px;
+            z-index: 20;
+        }
+        .cert-signature h5 { font-size: 16pt; color: var(--koyu-lacivert); margin-bottom: 5px; }
+        .cert-signature p { font-size: 13pt; color: var(--meb-kirmizi); }
+
+        /* YAZDIRMA (PRINT) CSS KURALLARI */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+            body {
+                background: white;
+                display: block;
+                height: auto;
+                overflow: visible;
+                margin: 0;
+                padding: 0;
+            }
+            .sidebar { display: none !important; }
+            .preview-container {
+                padding: 0;
+                background: white;
+                display: block;
+            }
+            .certificate-wrapper {
+                box-shadow: none;
+                transform: none !important;
+                margin: 0;
+                width: 297mm;
+                height: 210mm;
+            }
+        }
+        
+        /* Ekran küçüldüğünde sertifikayı sığdırma (Sadece Önizleme İçin) */
+        @media screen and (max-width: 1400px) {
+            .certificate-wrapper { transform: scale(0.8); }
+        }
+        @media screen and (max-width: 1100px) {
+            .certificate-wrapper { transform: scale(0.6); }
+        }
+        @media screen and (max-width: 800px) {
+            body { flex-direction: column; overflow: auto;}
+            .sidebar { width: 100%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            .preview-container { padding: 20px; align-items: flex-start;}
+            .certificate-wrapper { transform: scale(0.4); transform-origin: top center;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- KONTROL PANELİ -->
+    <div class="sidebar no-print">
+        <h2>Sertifika Bilgileri</h2>
+        <p>Bilgileri seçin/doldurun ve yazdır butonuna tıklayın.</p>
+
+        <div class="form-group">
+            <label for="adInput">Öğrencinin Adı Soyadı</label>
+            <input type="text" id="adInput" value="Zeynep KAYA" oninput="updatePreview()">
+        </div>
+
+        <div class="form-group">
+            <label for="okulInput">Okulu</label>
+            <input type="text" id="okulInput" value="Gazi Ortaokulu" oninput="updatePreview()" placeholder="Boş bırakılabilir">
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <div class="form-group" style="flex: 1;">
+                <label for="sinifInput">Sınıfı</label>
+                <input type="text" id="sinifInput" value="8/A" oninput="updatePreview()">
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label for="noInput">Numarası</label>
+                <input type="text" id="noInput" value="1071" oninput="updatePreview()">
+            </div>
+        </div>
+
+        <!-- KATEGORİ SEÇİMİ -->
+        <div class="form-group">
+            <label for="kategoriInput">Sınıf Kategorisi</label>
+            <select id="kategoriInput" onchange="updatePreview()">
+                <option value="">Seçiniz (İsteğe Bağlı)</option>
+                <option value="4. SINIF KATEGORİSİ">4. Sınıf Kategorisi</option>
+                <option value="5. SINIF KATEGORİSİ">5. Sınıf Kategorisi</option>
+                <option value="6. SINIF KATEGORİSİ">6. Sınıf Kategorisi</option>
+                <option value="7. SINIF KATEGORİSİ">7. Sınıf Kategorisi</option>
+                <option value="8. SINIF KATEGORİSİ">8. Sınıf Kategorisi</option>
+                <option value="9. SINIF KATEGORİSİ">9. Sınıf Kategorisi</option>
+                <option value="10. SINIF KATEGORİSİ">10. Sınıf Kategorisi</option>
+                <option value="11. SINIF KATEGORİSİ">11. Sınıf Kategorisi</option>
+                <option value="12. SINIF KATEGORİSİ">12. Sınıf Kategorisi</option>
+            </select>
+        </div>
+
+        <!-- YENİ: AÇILIR MENÜ VE İSTEĞE BAĞLI YAZI ALANI -->
+        <div class="form-group">
+            <label for="dereceSelect">Kazanılan Derece</label>
+            <select id="dereceSelect" onchange="toggleCustomDerece(); updatePreview()">
+                <option value="İLÇE BİRİNCİLİĞİ">1. (İlçe Birinciliği)</option>
+                <option value="İLÇE İKİNCİLİĞİ">2. (İlçe İkinciliği)</option>
+                <option value="İLÇE ÜÇÜNCÜLÜĞÜ">3. (İlçe Üçüncülüğü)</option>
+                <option value="İLÇE DÖRDÜNCÜLÜĞÜ">4. (İlçe Dördüncülüğü)</option>
+                <option value="İLÇE BEŞİNCİLİĞİ">5. (İlçe Beşinciliği)</option>
+                <option value="İLÇE ALTINCILIĞI">6. (İlçe Altıncılığı)</option>
+                <option value="İLÇE YEDİNCİLİĞİ">7. (İlçe Yedinciliği)</option>
+                <option value="İLÇE SEKİZİNCİLİĞİ">8. (İlçe Sekizinciliği)</option>
+                <option value="İLÇE DOKUZUNCULUĞU">9. (İlçe Dokuzunculuğu)</option>
+                <option value="İLÇE ONUNCULUĞU">10. (İlçe Onunculuğu)</option>
+                <option value="KATILIM BELGESİ">Katılım Belgesi</option>
+                <option value="CUSTOM">İsteğe Bağlı (Kendin Yaz)...</option>
+            </select>
+            <!-- Eğer İsteğe Bağlı (Kendin Yaz) seçilirse bu metin kutusu görünür olacak -->
+            <input type="text" id="dereceCustomInput" style="display: none; margin-top: 10px;" placeholder="Özel dereceyi buraya yazın..." oninput="updatePreview()">
+        </div>
+        
+        <!-- İMZA YETKİLİSİ POPUP -->
+        <div class="form-group">
+            <label for="imzaInput">İmzayı Atacak Yetkili</label>
+            <select id="imzaInput" onchange="updatePreview()">
+                <option value="kaymakam">Muhammed Enes İPEK (Kaymakam)</option>
+                <option value="mudur">Selman GEZİCİ (İlçe M.E.M.)</option>
+            </select>
+        </div>
+
+        <button class="btn-print" onclick="window.print()">
+            🖨️ Yazdır / PDF İndir
+        </button>
+    </div>
+
+    <!-- SERTİFİKA ÖNİZLEME ALANI -->
+    <div class="preview-container">
+        <div class="certificate-wrapper" id="certificate">
+            
+            <!-- Çerçeve ve Köşeler -->
+            <div class="cert-border"></div>
+            
+            <div class="corner top-left">
+                <svg viewBox="0 0 100 100">
+                    <polygon points="0,0 100,0 0,100" fill="#E30A17"/>
+                    <polygon points="0,0 80,0 0,80" fill="#D4AF37"/>
+                    <polygon points="0,0 40,0 0,40" fill="#111827"/>
+                </svg>
+            </div>
+            <div class="corner top-right">
+                <svg viewBox="0 0 100 100">
+                    <polygon points="0,0 100,0 0,100" fill="#E30A17"/>
+                    <polygon points="0,0 80,0 0,80" fill="#D4AF37"/>
+                    <polygon points="0,0 40,0 0,40" fill="#111827"/>
+                </svg>
+            </div>
+            <div class="corner bottom-left">
+                <svg viewBox="0 0 100 100">
+                    <polygon points="0,0 100,0 0,100" fill="#E30A17"/>
+                    <polygon points="0,0 80,0 0,80" fill="#D4AF37"/>
+                    <polygon points="0,0 40,0 0,40" fill="#111827"/>
+                </svg>
+            </div>
+            <div class="corner bottom-right">
+                <svg viewBox="0 0 100 100">
+                    <polygon points="0,0 100,0 0,100" fill="#E30A17"/>
+                    <polygon points="0,0 80,0 0,80" fill="#D4AF37"/>
+                    <polygon points="0,0 40,0 0,40" fill="#111827"/>
+                </svg>
+            </div>
+
+            <!-- Zenginleştirilmiş Matematiksel Arka Plan (Geometrik Silüetler) -->
+            <div class="math-bg">
+                <div class="math-item" style="color: rgba(212, 175, 55, 0.05); font-size: 380pt; top: 50%; left: 50%; transform: translate(-50%, -50%);">π</div>
+                
+                <div class="geo-grid" style="top: -50px; left: -50px;"></div>
+                <div class="geo-grid" style="bottom: 100px; right: -50px; transform: rotate(-25deg);"></div>
+                <div class="geo-shape" style="width: 300px; height: 300px; top: 10%; right: 5%;"></div>
+                <div class="geo-shape" style="width: 400px; height: 400px; bottom: -5%; left: 10%; border-color: rgba(17,24,39,0.02)"></div>
+                
+                <svg style="position: absolute; top: 55%; left: 80%; width: 200px; height: 200px; opacity: 0.03;" viewBox="0 0 100 100">
+                    <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="none" stroke="#111827" stroke-width="2"/>
+                    <line x1="10" y1="30" x2="50" y2="50" stroke="#111827" stroke-width="2"/>
+                    <line x1="90" y1="30" x2="50" y2="50" stroke="#111827" stroke-width="2"/>
+                    <line x1="50" y1="90" x2="50" y2="50" stroke="#111827" stroke-width="2"/>
+                </svg>
+
+                <div class="geo-triangle" style="top: 25%; left: 20%; transform: rotate(15deg);"></div>
+                
+                <div class="math-item" style="font-size: 40pt; top: 18%; left: 12%; transform: rotate(15deg);">∫₀^∞ e⁻ˣ² dx = √π / 2</div>
+                <div class="math-item" style="color: rgba(212, 175, 55, 0.08); font-size: 35pt; top: 22%; right: 12%; transform: rotate(-10deg);">∑ (1/n²) = π² / 6</div>
+                <div class="math-item" style="color: rgba(227, 10, 23, 0.05); font-size: 45pt; bottom: 25%; left: 15%; transform: rotate(20deg);">e^iπ + 1 = 0</div>
+                <div class="math-item" style="font-size: 45pt; bottom: 20%; right: 20%; transform: rotate(-15deg);">φ = (1+√5)/2</div>
+                <div class="math-item" style="color: rgba(227, 10, 23, 0.04); font-size: 35pt; bottom: 12%; left: 40%; transform: rotate(8deg);">Δ = b² - 4ac</div>
+                <div class="math-item" style="font-size: 100pt; top: 35%; left: 6%; transform: rotate(-25deg);">∑</div>
+                <div class="math-item" style="color: rgba(212, 175, 55, 0.05); font-size: 120pt; top: 40%; right: 6%; transform: rotate(15deg);">∫</div>
+                <div class="math-item" style="color: rgba(227, 10, 23, 0.04); font-size: 30pt; top: 12%; left: 45%; transform: rotate(-5deg);">a² + b² = c²</div>
+                <div class="math-item" style="font-size: 45pt; top: 60%; left: 75%; transform: rotate(-10deg); color: rgba(17, 24, 39, 0.03);">lim (1+1/x)ˣ = e</div>
+                <div class="math-item" style="font-size: 60pt; top: 75%; left: 50%; transform: rotate(5deg); color: rgba(212, 175, 55, 0.04);">f(x) = ax² + bx + c</div>
+            </div>
+
+            <!-- Sertifika İçeriği -->
+            <div class="cert-content">
+                
+                <!-- Kurum Logoları -->
+                <div class="cert-header">
+                    <img src="kaymakamlık.jpg" alt="Kaymakamlık Logosu" class="logo-img">
+                    <div class="header-titles">
+                        <h1>T.C. DARGEÇİT KAYMAKAMLIĞI</h1>
+                        <h2>İlçe Millî Eğitim Müdürlüğü</h2>
+                    </div>
+                    <img src="dargecitmem.jpg" alt="MEB Logosu" class="logo-img">
+                </div>
+
+                <!-- Başlık -->
+                <div class="cert-title">
+                    <h3>1. DARGEÇİT MATEMATİK OLİMPİYATI</h3>
+                    <h4>KATILIM VE BAŞARI BELGESİ</h4>
+                </div>
+
+                <!-- Dinamik Öğrenci Bilgileri -->
+                <table class="info-table">
+                    <tr>
+                        <td class="label">Adı Soyadı</td>
+                        <td class="colon">:</td>
+                        <td class="value" id="adOut">Zeynep KAYA</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Okulu</td>
+                        <td class="colon">:</td>
+                        <td class="value" id="okulOut">Gazi Ortaokulu</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Sınıfı / No</td>
+                        <td class="colon">:</td>
+                        <td class="value">
+                            <span id="sinifOut">8/A</span> <span style="margin: 0 10px;">-</span> <span id="noOut">1071</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Metin ve Derece Alanı -->
+                <div class="cert-body">
+                    İlçemiz genelinde düzenlenen <b>1. Dargeçit Matematik Olimpiyatı</b>'na katılarak üstün gayret gösteren öğrencimiz,
+                    
+                    <!-- Dinamik Kategori ve Derece Yazısı (TEK SATIRDA) -->
+                    <div class="cert-degree-wrapper">
+                        <span class="cert-degree" id="kategoriOut" style="display: none;"></span>
+                        <span class="cert-degree" id="dereceOut">İLÇE BİRİNCİLİĞİ</span>
+                    </div>
+                    
+                    derecesini elde etmeye hak kazanmıştır. Öğrencimizi tebrik eder,<br>bilim yolculuğundaki başarılarının devamını dileriz.
+                </div>
+
+            </div>
+
+            <!-- İmza -->
+            <div class="cert-signature">
+                <h5 id="imzaAdi">Muhammed Enes İPEK</h5>
+                <p id="imzaUnvani">Dargeçit Kaymakamı</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: Anlık Güncelleme -->
+    <script>
+        // "İsteğe Bağlı" seçeneği tıklanınca metin kutusunu göster/gizle
+        function toggleCustomDerece() {
+            const select = document.getElementById('dereceSelect');
+            const customInput = document.getElementById('dereceCustomInput');
+            if (select.value === 'CUSTOM') {
+                customInput.style.display = 'block';
+                customInput.focus();
+            } else {
+                customInput.style.display = 'none';
+            }
+        }
+
+        function updatePreview() {
+            // Metin Alanları
+            document.getElementById('adOut').innerText = document.getElementById('adInput').value || "\u00A0";
+            document.getElementById('okulOut').innerText = document.getElementById('okulInput').value || "\u00A0";
+            document.getElementById('sinifOut').innerText = document.getElementById('sinifInput').value || "\u00A0";
+            document.getElementById('noOut').innerText = document.getElementById('noInput').value || "\u00A0";
+            
+            // Kategori Alanı (Derece İle Tek Satırda)
+            const kategoriDeger = document.getElementById('kategoriInput').value;
+            const kategoriElementi = document.getElementById('kategoriOut');
+            if (kategoriDeger) {
+                // Araya bir boşluk bırakarak dereceyle birleşmesini sağlıyoruz
+                kategoriElementi.innerText = kategoriDeger + " ";
+                kategoriElementi.style.display = "inline";
+            } else {
+                kategoriElementi.style.display = "none";
+                kategoriElementi.innerText = "";
+            }
+            
+            // Hibrit Derece Alanı (Seçili veya Yazılı)
+            const dereceSelect = document.getElementById('dereceSelect').value;
+            let dereceDegeri = dereceSelect;
+            if (dereceSelect === 'CUSTOM') {
+                dereceDegeri = document.getElementById('dereceCustomInput').value || "KATILIM BELGESİ";
+            }
+            document.getElementById('dereceOut').innerText = dereceDegeri;
+            
+            // İmza Yetkilisini Ayarla
+            const imzaSecimi = document.getElementById('imzaInput').value;
+            if (imzaSecimi === "kaymakam") {
+                document.getElementById('imzaAdi').innerText = "Muhammed Enes İPEK";
+                document.getElementById('imzaUnvani').innerText = "Dargeçit Kaymakamı";
+            } else {
+                document.getElementById('imzaAdi').innerText = "Selman GEZİCİ";
+                document.getElementById('imzaUnvani').innerText = "İlçe Millî Eğitim Müdürü";
+            }
+        }
+        
+        // Sayfa yüklendiğinde ayarları uygula
+        window.onload = function() {
+            updatePreview();
+        };
+    </script>
+</body>
+</html>
