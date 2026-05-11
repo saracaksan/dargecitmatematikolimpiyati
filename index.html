@@ -399,33 +399,38 @@
     </footer>
 
     <script>
-        const siniflar = [4, 5, 6, 7, 9, 10, 11];
+        
+           const siniflar = [4, 5, 6, 7, 9, 10, 11];
         
         const tbody1 = document.getElementById('stage1Body');
         const tbody2 = document.getElementById('stage2Body');
 
         siniflar.forEach(s => {
-            // 1. Aşama (Ayrı A-B Çözümleriyle Birlikte)
+            // 1. AŞAMA (11 MAYIS) - LİNKLER AKTİF EDİLDİ
+            // href kısımlarına dosyalarınızın yollarını otomatik atıyoruz.
             const tr1 = document.createElement('tr');
             tr1.innerHTML = `
                 <td><strong style="color: var(--koyu-siyah);">${s}. Sınıf</strong></td>
                 <td>
                     <div class="btn-group">
-                        <button class="pdf-link btn-a" onclick="showAlert('11 Mayıs')">${s}A İndir</button>
-                        <button class="pdf-link btn-b" onclick="showAlert('11 Mayıs')">${s}B İndir</button>
+                        <a href="belgeler/${s}_sinif_a_kitapcigi.pdf" target="_blank" class="pdf-link btn-a">${s}A İndir</a>
+                        <a href="belgeler/${s}_sinif_b_kitapcigi.pdf" target="_blank" class="pdf-link btn-b">${s}B İndir</a>
                     </div>
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button class="pdf-link btn-sol-a" onclick="showAlert('11 Mayıs')">A Çözüm</button>
-                        <button class="pdf-link btn-sol-b" onclick="showAlert('11 Mayıs')">B Çözüm</button>
+                        <a href="belgeler/${s}_sinif_a_cozum.pdf" target="_blank" class="pdf-link btn-sol-a">A Çözüm</a>
+                        <a href="belgeler/${s}_sinif_b_cozum.pdf" target="_blank" class="pdf-link btn-sol-b">B Çözüm</a>
                     </div>
                 </td>
-                <td><button class="pdf-link btn-slip" onclick="showAlert('11 Mayıs')">Öğrenci Fişi</button></td>
+                <td>
+                    <a href="belgeler/${s}_sinif_ogrenci_fisi.pdf" target="_blank" class="pdf-link btn-slip">Öğrenci Fişi</a>
+                </td>
             `;
             tbody1.appendChild(tr1);
 
-            // 2. Aşama Tablosu
+            // 2. AŞAMA (18 MAYIS) - Şimdilik kilitli kalabilir veya açabilirsiniz
+            // Eğer bunları da açmak isterseniz "button" yerine yukarıdaki gibi "a" etiketi kullanabilirsiniz.
             const tr2 = document.createElement('tr');
             tr2.innerHTML = `
                 <td><strong style="color: var(--meb-kirmizi);">${s}. Sınıf</strong></td>
@@ -436,10 +441,9 @@
             tbody2.appendChild(tr2);
         });
 
+        // Uyarı fonksiyonu sadece 18 Mayıs belgeleri için devrede kalıyor
         function showAlert(tarih) {
-            const mesaj = tarih === '11 Mayıs' 
-                ? "Sınav güvenliği gereği <b>1. Aşama</b> evrakları <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.2rem;'>11 Mayıs 2026</span><br><br>tarihinde erişime açılacaktır." 
-                : "<b>2. Aşama</b> final evrakları sınav bitiminde <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.2rem;'>18 Mayıs 2026</span><br><br>tarihinde aktifleşecektir.";
+            const mesaj = "<b>2. Aşama</b> final evrakları sınav bitiminde <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.2rem;'>18 Mayıs 2026</span><br><br>tarihinde aktifleşecektir.";
             
             document.getElementById('alertMessage').innerHTML = mesaj;
             document.getElementById('overlay').style.display = 'block';
