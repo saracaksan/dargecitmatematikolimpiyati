@@ -12,6 +12,7 @@
             --koyu-siyah: #111827;
             --acik-gri: #f3f4f6;
             --beyaz: #ffffff;
+            --altin-sari: #D4AF37;
             --soft-shadow: 0 10px 25px rgba(0,0,0,0.08);
             --hover-shadow: 0 15px 35px rgba(227, 10, 23, 0.15);
         }
@@ -46,7 +47,7 @@
         }
 
         .header-logo img {
-            height: 65px; /* Masaüstünde büyük */
+            height: 65px; 
             width: auto;
             object-fit: contain;
             transition: height 0.3s ease;
@@ -75,10 +76,9 @@
         }
         nav a:hover { background: var(--meb-kirmizi); color: var(--beyaz); box-shadow: 0 4px 10px rgba(227, 10, 23, 0.3); }
 
-        /* MOBİL CEP TELEFONU AYARLARI */
         @media (max-width: 768px) {
             header { padding: 10px 2%; flex-wrap: wrap; }
-            .header-logo img { height: 45px; } /* Mobilde otomatik küçülür, kaymayı engeller */
+            .header-logo img { height: 45px; } 
             .header-center h2 { font-size: 0.9rem; }
             .header-center h4 { font-size: 0.75rem; }
             nav { gap: 5px; }
@@ -92,43 +92,104 @@
             background-size: cover;
             background-position: center;
             color: var(--beyaz);
-            padding: 100px 5%;
+            padding: 100px 5% 150px 5%; /* Alt boşluğu sonuç paneli için artırdık */
             text-align: center;
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
-            margin-bottom: 30px;
+            margin-bottom: 0px;
         }
 
         .hero h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 800; text-shadow: 2px 2px 15px rgba(0,0,0,0.8); }
         .hero h1 span { color: var(--meb-kirmizi); }
         .hero p { font-size: 1.2rem; max-width: 900px; margin: 0 auto 40px; line-height: 1.6; }
 
-        .btn-main {
-            display: inline-block; padding: 15px 40px; background: var(--meb-kirmizi); color: var(--beyaz);
-            text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem;
-            box-shadow: 0 8px 20px rgba(227, 10, 23, 0.4); transition: all 0.3s;
+        /* ======================================================== */
+        /* YENİ: PARLAYAN SONUÇ EKRANI BÖLÜMÜ                       */
+        /* ======================================================== */
+        .results-banner {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            border: 3px solid var(--meb-kirmizi);
+            border-radius: 20px;
+            padding: 40px 5%;
+            margin: -100px auto 50px auto; /* Hero alanının üzerine bindirdik */
+            max-width: 1100px;
+            position: relative;
+            z-index: 20;
+            text-align: center;
+            animation: neon-glow 2s infinite alternate;
+            box-shadow: 0 0 20px rgba(227, 10, 23, 0.4);
         }
-        .btn-main:hover { transform: translateY(-3px); }
+
+        @keyframes neon-glow {
+            0% { box-shadow: 0 0 10px rgba(227, 10, 23, 0.4), inset 0 0 10px rgba(227, 10, 23, 0.2); }
+            100% { box-shadow: 0 0 40px rgba(227, 10, 23, 0.8), inset 0 0 20px rgba(227, 10, 23, 0.5); }
+        }
+
+        .results-banner h2 {
+            color: var(--beyaz);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .results-banner h2 span { color: var(--altin-sari); }
+
+        .results-instructions {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 25px 0 35px 0;
+            flex-wrap: wrap;
+        }
+
+        .instruction-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 280px;
+            max-width: 450px;
+            text-align: left;
+            border-left: 4px solid var(--altin-sari);
+            color: #d1d5db;
+        }
+        .instruction-card h4 { color: var(--altin-sari); font-size: 1.2rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;}
+        .instruction-card p { font-size: 0.95rem; line-height: 1.6; }
+
+        /* Parlayan Buton */
+        .btn-pulse {
+            display: inline-block;
+            background: var(--meb-kirmizi);
+            color: var(--beyaz);
+            text-decoration: none;
+            padding: 18px 40px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            border-radius: 50px;
+            text-transform: uppercase;
+            box-shadow: 0 0 0 0 rgba(227, 10, 23, 0.7);
+            animation: pulse-btn 1.5s infinite;
+            transition: 0.3s;
+        }
+
+        .btn-pulse:hover {
+            transform: scale(1.05);
+            background: #b90812;
+            color: var(--beyaz);
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(227, 10, 23, 0.7); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 20px rgba(227, 10, 23, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(227, 10, 23, 0); }
+        }
+        /* ======================================================== */
 
         /* Sınav Takvimi */
         .dates-container {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
-            padding: 0 5%; max-width: 1200px; margin: -70px auto 40px auto; position: relative; z-index: 10;
+            padding: 0 5%; max-width: 1200px; margin: 0 auto 50px auto;
         }
-
-        /* YENİ EKLENEN BİLGİLENDİRME PENCERESİ STİLİ */
-        .info-box {
-            background: #fff5f5;
-            border-left: 5px solid var(--meb-kirmizi);
-            padding: 20px 25px;
-            margin: 0 auto 50px auto;
-            max-width: 1100px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            font-size: 1.05rem;
-            color: var(--koyu-siyah);
-            line-height: 1.6;
-        }
-        .info-box strong { color: var(--meb-kirmizi); font-size: 1.1rem; }
 
         .date-card {
             background: var(--beyaz); padding: 30px; border-radius: 15px; text-align: center;
@@ -139,7 +200,7 @@
         .date-card .highlight { font-size: 1.8rem; font-weight: 800; color: var(--meb-kirmizi); margin-bottom: 5px; }
 
         /* Ortak Bölüm Stilleri */
-        .section { padding: 60px 5%; max-width: 1400px; margin: 0 auto; }
+        .section { padding: 40px 5%; max-width: 1400px; margin: 0 auto; }
         .section-title { 
             text-align: center; font-size: 2.2rem; color: var(--koyu-siyah); 
             margin-bottom: 40px; position: relative; text-transform: uppercase; font-weight: 800;
@@ -185,7 +246,7 @@
         .btn-classic { background: var(--meb-kirmizi); }
         .pdf-link:hover { opacity: 0.8; transform: translateY(-2px); }
 
-        /* Matematik Dünyası & Linkler (GERİ GETİRİLDİ) */
+        /* Matematik Dünyası & Linkler */
         .math-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
         .math-card {
             background: var(--beyaz); border-radius: 12px; padding: 25px;
@@ -203,7 +264,7 @@
         }
         .link-item:hover { background: var(--meb-kirmizi); color: var(--beyaz); border-color: var(--meb-kirmizi); }
 
-        /* Footer (LOGOLAR KALDIRILDI - SADECE YAZI) */
+        /* Footer */
         footer { background: var(--koyu-siyah); color: var(--beyaz); padding: 50px 5% 20px; text-align: center; margin-top: 50px; }
         .sponsor { font-size: 1.1rem; color: #fca5a5; margin-bottom: 15px; font-weight: bold; }
         .rights { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: var(--acik-gri); }
@@ -217,7 +278,7 @@
         }
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1999; }
         
-        @media (max-width: 768px) { .hero h1 { font-size: 2.2rem; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.2rem; } .results-banner h2 {font-size: 1.8rem;} .btn-pulse {padding: 15px 25px; font-size: 1rem;} }
     </style>
 </head>
 <body>
@@ -230,42 +291,58 @@
     </div>
 
     <header>
-        <!-- Sol Logo -->
         <div class="header-logo">
-            <img src="KAYMAKAMLIK.jpg" alt="Dargeçit Kaymakamlığı">
+            <img src="kaymakamlık.jpg" alt="Dargeçit Kaymakamlığı">
         </div>
 
-        <!-- Orta Başlık ve Menü -->
         <div class="header-center">
             <h2>T.C. DARGEÇİT KAYMAKAMLIĞI</h2>
             <h4>İlçe Millî Eğitim Müdürlüğü</h4>
             <nav>
                 <a href="#">Ana Sayfa</a>
-                <a href="#takvim">Takvim</a>
+                <a href="#sonuclar">Sonuçlar</a>
                 <a href="#belgeler">Evraklar</a>
                 <a href="#matematik">Bilim Dünyası</a>
                 <a href="#kurumlar">Linkler</a>
             </nav>
         </div>
 
-        <!-- Sağ Logo -->
         <div class="header-logo">
-            <img src="Millî_Eğitim_Bakanlığı_(Türkiye)_-_Vikipedi_tr.jpg" alt="MEB">
+            <img src="dargecitmem.jpg" alt="İlçe MEB">
         </div>
     </header>
 
     <section class="hero">
         <h1>1. Dargeçit <span>Matematik Olimpiyatı</span></h1>
         <p>Medeniyetlerin beşiği Dicle'nin incisi Dargeçit'ten, evrensel bilimin zirvesine uzanan görkemli bir yolculuk... Geleceğin dehaları, bu büyük bilim şöleni sizleri bekliyor!</p>
-        <a href="#belgeler" class="btn-main">Sınav Evrakları ve Çözümler</a>
     </section>
+
+    <div class="results-banner" id="sonuclar">
+        <h2>🏆 1. Aşama <span>Sınav Sonuçları</span> Açıklandı!</h2>
+        
+        <div class="results-instructions">
+            <div class="instruction-card">
+                <h4>🎓 Öğrencilerimiz İçin</h4>
+                <p>Aşağıdaki butona tıklayarak sonuç sorgulama sistemine gidin. Sırasıyla <b>Sınavınızı</b> ve <b>Okulunuzu</b> seçtikten sonra <b>Okul Numaranızı</b> girerek bireysel karnenize anında ulaşabilirsiniz.</p>
+            </div>
+            
+            <div class="instruction-card">
+                <h4>🏢 Okul İdarecileri İçin</h4>
+                <p>Okulunuzun genel başarı analizlerini, istatistiklerini ve raporlarını incelemek için panele tıklayın. <i>(Yönetici giriş şifreleri idarecilerimize sistem üzerinden özel olarak iletilecektir.)</i></p>
+            </div>
+        </div>
+
+        <a href="https://dargecit-matematik-olimpiyat-sonuc.streamlit.app/" target="_blank" class="btn-pulse">
+            👉 Sonuç Sorgulama Ekranı İçin Tıklayınız
+        </a>
+    </div>
 
     <div class="dates-container" id="takvim">
         <div class="date-card">
             <h3>1. AŞAMA (Çoktan Seçmeli)</h3>
             <p class="highlight">11 Mayıs 2026</p>
             <p style="font-weight: bold; color: #555;">Pazartesi | Saat: 10:00</p>
-            <p style="font-size: 0.95rem; margin-top: 10px; color: #777;">Tüm Öğrenciler Kendi Okullarında</p>
+            <p style="font-size: 0.95rem; margin-top: 10px; color: #777;">Tamamlandı - Sonuçlar Açıklandı!</p>
         </div>
         <div class="date-card red-border">
             <h3>2. AŞAMA (Klasik Final)</h3>
@@ -273,11 +350,6 @@
             <p style="font-weight: bold; color: #555;">Pazartesi | Saat: 10:00</p>
             <p style="font-size: 0.95rem; margin-top: 10px; color: #777;">Dargeçit Anadolu Lisesi<br>(Adaylar 09:30'da hazır bulunacaktır)</p>
         </div>
-    </div>
-
-    <!-- ÖNEMLİ BİLGİLENDİRME PENCERESİ (YENİ EKLENDİ) -->
-    <div class="info-box" style="width: 90%;">
-        <strong>📌 Önemli Bilgilendirme:</strong> 1. Aşama sınavı için öğrencilerin herhangi bir yere <b>başvuru yapmasına gerek yoktur.</b> Sınav, Dargeçit ilçe genelindeki tüm okullarda eş zamanlı olarak gerçekleştirilecektir. (Olimpiyat sadece Dargeçit ilçesindeki okulları kapsamaktadır.)
     </div>
 
     <section class="section" id="oduller">
@@ -304,11 +376,9 @@
         </div>
     </section>
 
-    <!-- SINAV BELGELERİ -->
     <section class="section" id="belgeler">
         <h2 class="section-title">Sınav Evrakları ve Çözümler</h2>
 
-        <!-- 1. Aşama Tablosu -->
         <div class="table-container">
             <div class="table-title">1. Aşama Sınav Dökümanları (Çoktan Seçmeli - 11 Mayıs 2026)</div>
             <div class="table-wrap">
@@ -326,7 +396,6 @@
             </div>
         </div>
 
-        <!-- 2. Aşama Tablosu -->
         <div class="table-container">
             <div class="table-title red-title">2. Aşama Final Sınavı Dökümanları (Klasik Soru - 18 Mayıs 2026)</div>
             <div class="table-wrap">
@@ -345,7 +414,6 @@
         </div>
     </section>
 
-    <!-- MATEMATİK DÜNYASI BÖLÜMÜ (GERİ GETİRİLDİ) -->
     <section class="section" id="matematik" style="background: var(--beyaz); border-radius: 20px; box-shadow: var(--soft-shadow);">
         <h2 class="section-title">Matematik Dünyasını Keşfet</h2>
         <p style="text-align: center; margin-bottom: 40px; color: #666;">Sayılara yön veren bilim insanlarını tanıyalım ve ufkumuzu genişletelim.</p>
@@ -375,7 +443,6 @@
         </div>
     </section>
 
-    <!-- KURUMSAL LİNKLER (GERİ GETİRİLDİ) -->
     <section class="section" id="kurumlar">
         <h2 class="section-title">Resmi Kurumlarımız</h2>
         <div class="links-grid">
@@ -387,7 +454,6 @@
         </div>
     </section>
 
-    <!-- FOOTER (LOGOLAR TAMAMEN KALDIRILDI) -->
     <footer>
         <p class="sponsor">Resmi Sponsor: Dargeçit ve Çevre Köyleri Eğitim, Kültür, Yardımlaşma ve Dayanışma Derneği (DARDER)</p>
         <p style="font-size: 0.95rem; max-width: 700px; margin: 0 auto; line-height: 1.6;">Öğrencilerimizin analitik düşünme becerilerini geliştirmek ve Dargeçit'in akademik başarısına kalıcı bir katkı sunmak projemizin temel vizyonudur.</p>
@@ -399,15 +465,13 @@
     </footer>
 
     <script>
-        
-           const siniflar = [4, 5, 6, 7, 9, 10, 11];
+        const siniflar = [4, 5, 6, 7, 9, 10, 11];
         
         const tbody1 = document.getElementById('stage1Body');
         const tbody2 = document.getElementById('stage2Body');
 
         siniflar.forEach(s => {
-            // 1. AŞAMA (11 MAYIS) - LİNKLER AKTİF EDİLDİ
-            // href kısımlarına dosyalarınızın yollarını otomatik atıyoruz.
+            // 1. Aşama Belgeleri (Aktif)
             const tr1 = document.createElement('tr');
             tr1.innerHTML = `
                 <td><strong style="color: var(--koyu-siyah);">${s}. Sınıf</strong></td>
@@ -423,14 +487,11 @@
                         <a href="belgeler/${s}_sinif_b_cozum.pdf" target="_blank" class="pdf-link btn-sol-b">B Çözüm</a>
                     </div>
                 </td>
-                <td>
-                    <a href="belgeler/${s}_sinif_ogrenci_fisi.pdf" target="_blank" class="pdf-link btn-slip">Öğrenci Fişi</a>
-                </td>
+                <td><a href="belgeler/${s}_sinif_ogrenci_fisi.pdf" target="_blank" class="pdf-link btn-slip">Öğrenci Fişi</a></td>
             `;
             tbody1.appendChild(tr1);
 
-            // 2. AŞAMA (18 MAYIS) - Şimdilik kilitli kalabilir veya açabilirsiniz
-            // Eğer bunları da açmak isterseniz "button" yerine yukarıdaki gibi "a" etiketi kullanabilirsiniz.
+            // 2. Aşama Tablosu (Henüz pasif - 18 Mayıs)
             const tr2 = document.createElement('tr');
             tr2.innerHTML = `
                 <td><strong style="color: var(--meb-kirmizi);">${s}. Sınıf</strong></td>
@@ -441,7 +502,6 @@
             tbody2.appendChild(tr2);
         });
 
-        // Uyarı fonksiyonu sadece 18 Mayıs belgeleri için devrede kalıyor
         function showAlert(tarih) {
             const mesaj = "<b>2. Aşama</b> final evrakları sınav bitiminde <br><br><span style='color:#E30A17; font-weight:bold; font-size:1.2rem;'>18 Mayıs 2026</span><br><br>tarihinde aktifleşecektir.";
             
