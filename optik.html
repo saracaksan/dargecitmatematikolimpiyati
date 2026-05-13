@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınav Sonucu ve Optik Form Görüntüleme</title>
+    <style>
+        :root {
+            --meb-kirmizi: #E30A17;
+            --koyu-siyah: #111827;
+            --acik-gri: #f3f4f6;
+            --beyaz: #ffffff;
+            --mavi: #2563eb;
+            --yesil: #059669;
+            --turuncu: #d97706;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--acik-gri); color: var(--koyu-siyah); padding: 20px; line-height: 1.6; }
+        
+        .container { max-width: 900px; margin: 30px auto; background: var(--beyaz); padding: 35px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-top: 5px solid var(--meb-kirmizi); }
+        h2 { text-align: center; color: var(--koyu-siyah); margin-bottom: 10px; font-size: 1.9rem; font-weight: 800; }
+        p.subtitle { text-align: center; color: #555; margin-bottom: 30px; font-size: 1.05rem; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; color: #333; }
+        select { width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; background-color: #f9fafb; outline: none; transition: 0.3s; }
+        select:focus { border-color: var(--meb-kirmizi); background-color: #fff; }
+        select:disabled { background-color: #e5e7eb; cursor: not-allowed; opacity: 0.7; }
+
+        .result-box { display: none; margin-top: 40px; border-top: 2px dashed #ccc; padding-top: 30px; }
+        .student-header { background: var(--koyu-siyah); color: white; padding: 15px; border-radius: 8px; font-size: 1.3rem; text-align: center; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Grid Yapısı (Yan Yana İki Kart) */
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        @media (max-width: 768px) { .cards-grid { grid-template-columns: 1fr; } }
+
+        /* Bilgi Kartları Genel Stil */
+        .info-card { padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #e5e7eb; }
+        .info-card h3 { font-size: 1.25rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.1); display: flex; align-items: center; gap: 10px; }
+        .info-card p { font-size: 0.95rem; color: #444; margin-bottom: 20px; text-align: justify; }
+        
+        /* Karne Kartı (Yeşil) */
+        .card-karne { background: #f0fdf4; border-top: 5px solid var(--yesil); }
+        .card-karne h3 { color: var(--yesil); }
+        
+        /* Optik Kartı (Mavi) */
+        .card-optik { background: #eff6ff; border-top: 5px solid var(--mavi); }
+        .card-optik h3 { color: var(--mavi); }
+
+        /* Yönlendirme Kutusu (ZipGrade Giriş Adımları) */
+        .step-box { background: #fff; border: 1px dashed var(--mavi); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
+        .step-box ol { margin-left: 18px; margin-top: 10px; }
+        .step-box li { margin-bottom: 8px; }
+        .dynamic-data { color: var(--meb-kirmizi); font-family: monospace; font-size: 1.1rem; font-weight: bold; background: #fee2e2; padding: 2px 6px; border-radius: 4px; }
+
+        /* Butonlar */
+        .btn { display: block; text-align: center; text-decoration: none; padding: 15px 20px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; transition: all 0.3s; color: white; cursor: pointer; border: none; }
+        .btn-karne { background: var(--yesil); box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3); }
+        .btn-karne:hover { background: #047857; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(5, 150, 105, 0.4); }
+        
+        .btn-optik { background: var(--mavi); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .btn-optik:hover { background: #1d4ed8; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+
+        .error-msg { background: #fef2f2; border: 1px solid #fca5a5; color: var(--meb-kirmizi); text-align: center; font-weight: bold; display: none; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .back-link { display: block; text-align: center; margin-top: 30px; color: #666; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        .back-link:hover { color: var(--meb-kirmizi); text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Dargeçit Matematik Olimpiyatı Portalı</h2>
+    <p class="subtitle">Sınav sonuçlarınıza, analiz raporlarınıza ve kodladığınız orijinal optik formunuza ulaşmak için lütfen bilgilerinizi seçiniz.</p>
+
+    <div id="hataMesaji" class="error-msg">
+        Sistem verileri okuyamadı. <br><span style="font-weight:normal; font-size:0.9rem;">(Eğer dosyayı bilgisayarda çift tıklayarak açtıysanız güvenlik nedeniyle çalışmaz. Lütfen Netlify veya bir web sunucusuna yükleyin.)</span>
+    </div>
+
+    <div class="form-group">
+        <label for="okulSelect">1. Okulunuzu Seçin</label>
+        <select id="okulSelect" onchange="okulSecildi()">
+            <option value="">-- Listeden Okulunuzu Seçin --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="sinifSelect">2. Sınıfınızı Seçin</label>
+        <select id="sinifSelect" onchange="sinifSecildi()" disabled>
+            <option value="">-- Önce Okul Seçmelisiniz --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="ogrenciSelect">3. Adınızı ve Soyadınızı Seçin</label>
+        <select id="ogrenciSelect" onchange="ogrenciSecildi()" disabled>
+            <option value="">-- Önce Sınıf Seçmelisiniz --</option>
+        </select>
+    </div>
+
+    <div id="sonucAlani" class="result-box">
+        <div class="student-header">Öğrenci: <span id="resAd"></span></div>
+        
+        <div class="cards-grid">
+            
+            <div class="info-card card-karne">
+                <div>
+                    <h3>📊 1. Gelişim Karnesi ve Analiz Raporu</h3>
+                    <p>Bu sistem, sınavdaki genel başarına dair derinlemesine bir analiz sunar. Okul ve ilçe genelindeki sıralamanı, hangi konularda eksiğin olduğunu ve doğru/yanlış/boş istatistiklerini gösteren <strong>öğrenci gelişim karnene</strong> ulaşmak için bu seçeneği kullanmalısın.</p>
+                    <p>Aşağıdaki butona tıkladığında açılacak sayfada bilgilerini girerek detaylı analiz raporunu görebilir, sınav performansını değerlendirebilirsin.</p>
+                </div>
+                <a href="https://dargecit-matematik-olimpiyat-sonuc.streamlit.app/" target="_blank" class="btn btn-karne">Gelişim Karnemi Görüntüle</a>
+            </div>
+
+            <div class="info-card card-optik">
+                <div>
+                    <h3>📝 2. Optik Form (Cevap Kağıdı) Sistemi</h3>
+                    <p>Bu sistem, sınav esnasında kurşun kalemle doldurduğun kendi <strong>optik formunun orijinal resmini (taranmış halini)</strong> görmen içindir. Formda kaydırma yapıp yapmadığını bu sayfadan kontrol edebilirsin.</p>
+                    
+                    <div class="step-box">
+                        <strong>Nasıl Giriş Yapacaksın?</strong>
+                        <ol>
+                            <li>Aşağıdaki mavi butona tıkla.</li>
+                            <li>Açılan sayfada <em>"Student ID"</em> (Öğrenci Numarası) yazan boşluğa tam olarak şu numarayı yaz: <span id="resId" class="dynamic-data"></span></li>
+                            <li>Hemen altındaki <em>"Student Access Code"</em> (Erişim Şifresi) yazan boşluğa şu şifreyi yaz: <span id="resCode" class="dynamic-data"></span></li>
+                            <li><strong>Login</strong> butonuna bas ve optik formunu incele.</li>
+                        </ol>
+                    </div>
+                </div>
+                <a href="https://zipgrade.com/student/" target="_blank" class="btn btn-optik">ZipGrade (Optik Form) Sistemine Git</a>
+            </div>
+
+        </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Olimpiyat Ana Sayfasına Dön</a>
+</div>
+
+<script>
+    let ogrenciler = [];
+    let okullar = new Set();
+
+    document.addEventListener("DOMContentLoaded", function() {
+        if (window.location.protocol === 'file:') {
+            document.getElementById("hataMesaji").style.display = "block";
+            return;
+        }
+
+        fetch('veriler.csv')
+            .then(response => {
+                if (!response.ok) throw new Error("Dosya bulunamadı");
+                return response.text();
+            })
+            .then(csvVerisi => {
+                verileriIsle(csvVerisi);
+            })
+            .catch(error => {
+                console.error("Hata:", error);
+                document.getElementById("hataMesaji").style.display = "block";
+            });
+    });
+
+    function verileriIsle(csvMetni) {
+        const satirlar = csvMetni.replace(/\r/g, '').trim().split('\n');
+        const ayirici = satirlar[0].includes(';') ? ';' : ',';
+
+        let baslangic = 0;
+        if(satirlar[0].toLowerCase().includes("id") || satirlar[0].toLowerCase().includes("adı")) {
+            baslangic = 1;
+        }
+
+        for (let i = baslangic; i < satirlar.length; i++) {
+            const sutunlar = satirlar[i].split(ayirici);
+            
+            if (sutunlar.length >= 5) {
+                const id = sutunlar[0].trim();
+                const ad = sutunlar[1].trim();
+                const soyad = sutunlar[2].trim();
+                const sifre = sutunlar[3].trim();
+                const okulSinif = sutunlar[4].trim();
+
+                const sonTireIndex = okulSinif.lastIndexOf('-');
+                let okul = okulSinif;
+                let sinif = "Belirtilmemiş";
+                
+                if (sonTireIndex !== -1) {
+                    okul = okulSinif.substring(0, sonTireIndex).replace(/_/g, ' '); 
+                    sinif = okulSinif.substring(sonTireIndex + 1);
+                }
+
+                if(id !== "" && ad !== "") {
+                    ogrenciler.push({id, ad, soyad, sifre, okul, sinif});
+                    okullar.add(okul);
+                }
+            }
+        }
+
+        const okulSelect = document.getElementById("okulSelect");
+        let siraliOkullar = Array.from(okullar).sort();
+        
+        siraliOkullar.forEach(okul => {
+            let option = document.createElement("option");
+            option.value = okul;
+            option.text = okul;
+            okulSelect.appendChild(option);
+        });
+    }
+
+    function okulSecildi() {
+        const secilenOkul = document.getElementById("okulSelect").value;
+        const sinifSelect = document.getElementById("sinifSelect");
+        const ogrenciSelect = document.getElementById("ogrenciSelect");
+        const sonucAlani = document.getElementById("sonucAlani");
+
+        sinifSelect.innerHTML = '<option value="">-- Sınıfınızı Seçin --</option>';
+        ogrenciSelect.innerHTML = '<option value="">-- Önce Sınıf Seçmelisiniz --</option>';
+        ogrenciSelect.disabled = true;
+        sonucAlani.style.display = "none";
+
+        if (secilenOkul !== "") {
+            sinifSelect.disabled = false;
+            let buOkulunSiniflari = new Set();
+            
+            ogrenciler.forEach(ogr => {
+                if(ogr.okul === secilenOkul) buOkulunSiniflari.add(ogr.sinif);
+            });
+
+            let siraliSiniflar = Array.from(buOkulunSiniflari).sort((a,b) => a.localeCompare(b, 'tr', {numeric: true}));
+            siraliSiniflar.forEach(snf => {
+                let option = document.createElement("option");
+                option.value = snf;
+                option.text = snf;
+                sinifSelect.appendChild(option);
+            });
+        } else {
+            sinifSelect.disabled = true;
+        }
+    }
+
+    function sinifSecildi() {
+        const secilenOkul = document.getElementById("okulSelect").value;
+        const secilenSinif = document.getElementById("sinifSelect").value;
+        const ogrenciSelect = document.getElementById("ogrenciSelect");
+        const sonucAlani = document.getElementById("sonucAlani");
+
+        ogrenciSelect.innerHTML = '<option value="">-- Adınızı ve Soyadınızı Seçin --</option>';
+        sonucAlani.style.display = "none";
+
+        if (secilenSinif !== "") {
+            ogrenciSelect.disabled = false;
+            
+            let siniftakiOgrenciler = ogrenciler.filter(ogr => ogr.okul === secilenOkul && ogr.sinif === secilenSinif);
+            siniftakiOgrenciler.sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
+
+            siniftakiOgrenciler.forEach(ogr => {
+                let option = document.createElement("option");
+                option.value = ogr.id;
+                option.text = ogr.ad + " " + ogr.soyad;
+                ogrenciSelect.appendChild(option);
+            });
+        } else {
+            ogrenciSelect.disabled = true;
+        }
+    }
+
+    function ogrenciSecildi() {
+        const secilenId = document.getElementById("ogrenciSelect").value;
+        const sonucAlani = document.getElementById("sonucAlani");
+
+        if (secilenId !== "") {
+            const ogrenci = ogrenciler.find(ogr => ogr.id === secilenId);
+            if (ogrenci) {
+                // Öğrenci Adı
+                document.getElementById("resAd").innerText = ogrenci.ad + " " + ogrenci.soyad;
+                
+                // Mavi kutunun içindeki adımlara öğrencinin ŞİFRELERİNİ DİNAMİK YAZDIRIYORUZ!
+                document.getElementById("resId").innerText = ogrenci.id;
+                document.getElementById("resCode").innerText = ogrenci.sifre;
+                
+                sonucAlani.style.display = "block";
+            }
+        } else {
+            sonucAlani.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>
