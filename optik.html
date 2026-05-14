@@ -21,15 +21,6 @@
         h2 { text-align: center; color: var(--koyu-siyah); margin-bottom: 10px; font-size: 1.9rem; font-weight: 800; }
         p.subtitle { text-align: center; color: #555; margin-bottom: 30px; font-size: 1.05rem; }
 
-        /* --- ÖĞRETMEN / KURUM BANNER STİLLERİ EKLENDİ --- */
-        .teacher-banner { background: #fffbeb; border: 1px solid #fde68a; border-left: 5px solid var(--turuncu); padding: 20px; border-radius: 8px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-        .teacher-banner-content h4 { color: #b45309; margin-bottom: 5px; font-size: 1.15rem; display: flex; align-items: center; gap: 8px; }
-        .teacher-banner-content p { color: #92400e; font-size: 0.95rem; margin: 0; text-align: left; }
-        .btn-teacher { background: var(--turuncu); color: white; padding: 12px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; white-space: nowrap; box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3); transition: all 0.3s; }
-        .btn-teacher:hover { background: #b45309; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(217, 119, 6, 0.4); }
-        @media (max-width: 600px) { .teacher-banner { flex-direction: column; text-align: center; } .btn-teacher { width: 100%; } .teacher-banner-content h4 { justify-content: center; } .teacher-banner-content p { text-align: center; } }
-        /* ------------------------------------------------ */
-
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 700; margin-bottom: 8px; color: #333; }
         select { width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; background-color: #f9fafb; outline: none; transition: 0.3s; }
@@ -78,16 +69,16 @@
 <body>
 
 <div class="container">
+    
+    <!-- ÖĞRETMEN VE KURUM İÇİN EKLENEN KISIM BAŞLANGICI -->
+    <div style="text-align: right; margin-bottom: 15px;">
+        <a href="https://dargecit-matematik-olimpiyat-sonuc.streamlit.app/" target="_blank" style="background-color: var(--turuncu); color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">👨‍🏫 Öğretmen / Kurum Toplu Analiz Sonuçları İçin Tıklayınız</a>
+    </div>
+    <!-- ÖĞRETMEN VE KURUM İÇİN EKLENEN KISIM BİTİŞİ -->
+
     <h2>Dargeçit Matematik Olimpiyatı Portalı</h2>
     <p class="subtitle">Sınav sonuçlarınıza, analiz raporlarınıza ve kodladığınız orijinal optik formunuza ulaşmak için lütfen bilgilerinizi seçiniz.</p>
 
-    <div class="teacher-banner">
-        <div class="teacher-banner-content">
-            <h4>👨‍🏫 Öğretmen / Kurum Girişi</h4>
-            <p>Okulunuzun ve öğrencilerinizin toplu sınav sonuçlarına, sıralamalarına ve genel analiz raporlarına doğrudan erişmek için yandaki butonu kullanabilirsiniz.</p>
-        </div>
-        <a href="https://dargecit-matematik-olimpiyat-sonuc.streamlit.app/" target="_blank" class="btn-teacher">Toplu Sonuçları Gör</a>
-    </div>
     <div id="hataMesaji" class="error-msg">
         Sistem verileri okuyamadı. <br><span style="font-weight:normal; font-size:0.9rem;">(Eğer dosyayı bilgisayarda çift tıklayarak açtıysanız güvenlik nedeniyle çalışmaz. Lütfen Netlify veya bir web sunucusuna yükleyin.)</span>
     </div>
@@ -285,10 +276,8 @@
         if (secilenId !== "") {
             const ogrenci = ogrenciler.find(ogr => ogr.id === secilenId);
             if (ogrenci) {
-                // Öğrenci Adı
                 document.getElementById("resAd").innerText = ogrenci.ad + " " + ogrenci.soyad;
                 
-                // Mavi kutunun içindeki adımlara öğrencinin ŞİFRELERİNİ DİNAMİK YAZDIRIYORUZ!
                 document.getElementById("resId").innerText = ogrenci.id;
                 document.getElementById("resCode").innerText = ogrenci.sifre;
                 
